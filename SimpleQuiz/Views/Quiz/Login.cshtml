@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <div class="container mt-5">
+        <div class="main-container">
+            <h2 class="text-center">ورود به سامانه آزمون آنلاین</h2>
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="username" class="form-label">نام کاربری:</label>
+                    <input type="text" class="form-control" id="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">رمز عبور:</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <button type="button" class="btn btn-primary w-100" onclick="login()">ورود</button>
+            </form>
+            <p class="text-center mt-3">عضو نیستید؟ <a href="signup.html">ثبت‌نام کنید</a></p>
+        </div>
+    </div>

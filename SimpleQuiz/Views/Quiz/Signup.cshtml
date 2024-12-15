@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "ثبت نام";
+}
+<div class="container mt-5">
+    <div class="main-container">
+        <h2 class="text-center">ثبت‌نام در سامانه آزمون آنلاین</h2>
+        <form id="signupForm">
+            <div class="mb-3">
+                <label for="fullName" class="form-label">نام و نام خانوادگی:</label>
+                <input type="text" class="form-control" id="fullName" required>
+            </div>
+            <div class="mb-3">
+                <label for="signupUsername" class="form-label">نام کاربری:</label>
+                <input type="text" class="form-control" id="signupUsername" required>
+            </div>
+            <div class="mb-3">
+                <label for="signupPassword" class="form-label">رمز عبور:</label>
+                <input type="password" class="form-control" id="signupPassword" required>
+            </div>
+            <button type="button" class="btn btn-success w-100" onclick="signup()">ثبت‌نام</button>
+        </form>
+        <p class="text-center mt-3">قبلاً ثبت‌نام کرده‌اید؟ <a href="login.html">وارد شوید</a></p>
+    </div>
+</div>

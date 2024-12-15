@@ -1,0 +1,46 @@
+body {
+    direction: rtl;
+    font-family: Tahoma, sans-serif;
+    background-color: #f8f9fa;
+}
+.main-container {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.header, .footer {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    border-radius: 10px;
+}
+.header h1 {
+    font-family: "B Titr", sans-serif;
+}
+.question {
+    margin-bottom: 20px;
+}
+.result-section {
+    display: none;
+}
+.section-header {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+}
+.form-check-label::before {
+    content: attr(data-index) "- ";
+}
+#loginPage, #signupPage {
+    display: none;
+}
+#loginPage.active, #signupPage.active {
+    display: block;
+}
+#quizPage {
+    display: none;
+}
