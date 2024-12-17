@@ -16,35 +16,35 @@
             <div class="mb-4">
                 <h2 class="section-header">سوالات تستی</h2>
                 <div class="question">
-                    <h5>۱. کدام یک از گزینه‌های زیر صحیح است؟</h5>
-                    <div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="question1" id="q1o1" value="1">
-                            <label class="form-check-label" for="q1o1" data-index="1">گزینه ۱</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="question1" id="q1o2" value="2">
-                            <label class="form-check-label" for="q1o2" data-index="2">گزینه ۲</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="question1" id="q1o3" value="3">
-                            <label class="form-check-label" for="q1o3" data-index="3">گزینه ۳</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="question1" id="q1o4" value="4">
-                            <label class="form-check-label" for="q1o4" data-index="4">گزینه ۴</label>
-                        </div>
-                    </div>
+                    @foreach (QuestionsViewModel question in ViewBag.Questions)
+                    {
+                        int q = @question.QuestionNumber;
+                        string name = "question" + q;
+                        <h5 name="@name">@question.QuestionNumber- @question.Questions</h5>
+                        int r = 1;
+                        @foreach (ResponsesViewModel response in ViewBag.Responses)
+                        {
+                            if (response.QuestionID == question.QuestionNumber)
+                            {
+                                string id = "q" + q + "o" + r;
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="@name" id="@id" value="@r">
+                                    <label class="form-check-label" for="@id" data-index="@r">@response.Questions</label>
+                                </div>
+                                r++;
+                            }
+                        }
+                    }
                 </div>
             </div>
 
-            <div class="mb-4">
+           @*  <div class="mb-4">
                 <h2 class="section-header">سوالات تشریحی</h2>
                 <div class="question">
                     <h5>۲. توضیحات خود را در مورد این سوال بنویسید:</h5>
                     <textarea class="form-control" name="question2" id="question2" rows="4" placeholder="پاسخ خود را بنویسید"></textarea>
                 </div>
-            </div>
+            </div> *@
 
             <button type="button" class="btn btn-primary" id="submitQuizButton" onclick="submitQuiz()">ثبت آزمون</button>
         </form>

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleQuiz", "SimpleQuiz\SimpleQuiz.csproj", "{4D09DB27-7763-4765-83C4-74007F7300BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleQuiz", "SimpleQuiz\SimpleQuiz.csproj", "{4D09DB27-7763-4765-83C4-74007F7300BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleQuizApi", "SimpleQuizApi\SimpleQuizApi.csproj", "{8F33FF0C-B569-4751-804B-2A0A5C425514}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{4D09DB27-7763-4765-83C4-74007F7300BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D09DB27-7763-4765-83C4-74007F7300BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D09DB27-7763-4765-83C4-74007F7300BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F33FF0C-B569-4751-804B-2A0A5C425514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F33FF0C-B569-4751-804B-2A0A5C425514}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F33FF0C-B569-4751-804B-2A0A5C425514}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F33FF0C-B569-4751-804B-2A0A5C425514}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
