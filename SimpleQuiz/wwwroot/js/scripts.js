@@ -1,32 +1,109 @@
 // کنترل لاگین
-function login() {
+async function login() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
-
+    const userInfos = {
+        UserName: username,
+        Password: password
+    };
+    const userInfo = await loginApi(userInfos);
     // فرض: شبیه‌سازی درخواست API
-    if (username === "1" && password === "1") {
-        
+    if (username.toLowerCase() === userInfo.userName.toLowerCase() && password === userInfo.password) {
+
         // ذخیره اطلاعات کاربر
-        sessionStorage.setItem("fullName", "کاربر تست");
-        sessionStorage.setItem("username", username);
+        sessionStorage.setItem("fullName", userInfo.name);
+        sessionStorage.setItem("username", userInfo.userName);
         // هدایت به صفحه آزمون
-        window.location.href = "/Quiz/QuizOnline";
+        //window.location.href = "/Quiz/QuizOnline";
+        window.location.href = await generateLinkApi();
     } else {
         alert("نام کاربری یا رمز عبور اشتباه است.");
     }
 }
 
+
+async function generateLinkApi() {
+    const apiUrl = "/qApi/QuizApi/GenerateSecureLink"; // آدرس کنترلر یا API سمت سرور
+    try {
+        const response = await fetch(apiUrl, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("ارسال به سرور با خطا مواجه شد.");
+        }
+
+        const data = await response.text(); // دریافت پاسخ به صورت رشته
+        console.log("پاسخ از سرور:", data);
+        return data; // بازگرداندن داده
+    } catch (error) {
+        console.error("خطا در ارسال به سرور:", error);
+        alert("خطا در ارسال پاسخها به سرور.");
+        throw error; // برای مدیریت خطا در فراخوانی تابع
+    }
+}
+
+
 // کنترل ثبت‌نام
-function signup() {
+async function signup() {
     const fullName = document.getElementById("fullName").value;
     const signupUsername = document.getElementById("signupUsername").value;
     const signupPassword = document.getElementById("signupPassword").value;
+    const signupRepeatPassword = document.getElementById("signupRepeatPassword").value;
+    const signupEmail = document.getElementById("signupEmail").value;
+    const signupMobile = document.getElementById("signupMobile").value;
 
-    // فرض: شبیه‌سازی ثبت‌نام موفق
-    alert("ثبت‌نام با موفقیت انجام شد! اکنون وارد شوید.");
-    window.location.href = "/Quiz/Login";
+    if (signupPassword === signupRepeatPassword) {
+        const userSignup = {
+            Name: fullName,
+            UserName: signupUsername,
+            Password: signupPassword,
+            Email: signupEmail,
+            Mobile: signupMobile
+        };
+        var userSignupRes = await signupApi(userSignup);
+        if (userSignupRes===1) {
+            alert("ثبت‌نام با موفقیت انجام شد! اکنون وارد شوید.");
+            window.location.href = "/Quiz/Login";
+        }
+        else if (userSignupRes === -1) {
+            alert("نام کاربری تکراری است");
+        }
+        else {
+            alert("خطا در ثبت نام");
+        }
+    }
+    else {
+        alert("خطا");
+    }
 }
+async function signupApi(userInfo) {
+    const apiUrl = "/qApi/QuizApi/Signup"; // آدرس کنترلر یا API سمت سرور
+    try {
+        const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userInfo)
+        });
 
+        if (!response.ok) {
+            throw new Error("ارسال به سرور با خطا مواجه شد.");
+        }
+
+        const data = await response.json(); // پاسخ JSON از سرور
+        console.log("پاسخ از سرور:", data);
+        return data; // بازگرداندن داده
+    } catch (error) {
+        console.error("خطا در ارسال به سرور:", error);
+        alert("خطا در ارسال پاسخ‌ها به سرور.");
+        throw error; // برای مدیریت خطا در فراخوانی تابع
+    }
+}
 // مقداردهی اطلاعات کاربر در صفحه آزمون
 function loadUserInfo() {
 
@@ -55,6 +132,9 @@ function startTimer(duration) {
 
         timerElement.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 
+        // ذخیره زمان باقی‌مانده در localStorage
+        localStorage.setItem("remainingTime", timeRemaining);
+
         if (timeRemaining === 60) {
             alert("تنها یک دقیقه به پایان آزمون باقی مانده است!");
         }
@@ -62,76 +142,34 @@ function startTimer(duration) {
         if (timeRemaining <= 0) {
             clearInterval(timerInterval);
             alert("زمان آزمون به پایان رسید!");
-            document.getElementById("submitQuizButton").disabled = true;
+            document.getElementById("submitQuizButton").disabled = true; // غیرفعال کردن دکمه ارسال
+            return;
         }
 
         timeRemaining--;
     }, 1000);
 }
 
-// ارسال آزمون
-//function submitQuiz() {
-//    // انتخاب تمام سوالات
-//    const form = document.getElementById("quizForm");
-//    const formData = new FormData(form);
-//    const results = [];
-
-//    // پردازش پاسخ‌ها
-//    for (const [key, value] of formData.entries()) {
-//        // پیدا کردن سوال مرتبط با استفاده از name در تگ h5
-//        const questionLabel = document.querySelector(`h5[name="${key}"]`).textContent;
-
-//        // اضافه کردن به نتایج
-//        results.push({
-//            questionId: key, // شناسه سوال
-//            questionText: questionLabel, // متن سوال
-//            answer: value || "پاسخ داده نشده" // پاسخ کاربر
-//        });
-//    }
-
-//    // ارسال داده‌ها به سمت سرور
-//    sendResultsToServer(results);
-
-//    // نمایش نتیجه در صفحه
-//    const resultSection = document.querySelector(".result-section");
-//    const resultList = results.map(result => `<li><strong>${result.questionText}</strong>: - پاسخ شما: گزینه  ${result.answer}</li>`).join('');
-//    resultSection.innerHTML = `
-//        <h3 class="text-success">آزمون با موفقیت ثبت شد!</h3>
-//        <ul>${resultList}</ul>
-//    `;
-
-//    // نمایش بخش نتیجه
-//    resultSection.style.display = "block";
-//}
-
-//function sendResultsToServer(results) {
-//    const apiUrl = "/qApi/QuizApi/SendResultToServer"; // آدرس کنترلر یا API سمت سرور
-//    debugger;
-//    fetch(apiUrl, {
-//        method: "POST", // ارسال درخواست POST
-//        headers: {
-//            "Content-Type": "application/json", // نوع داده ارسالی JSON
-//        },
-//        body: JSON.stringify({ answers: results }) // تبدیل داده‌ها به JSON
-//    })
-//        .then(response => {
-//            if (response.ok) {
-//                return response.json(); // پاسخ از سرور
-//            } else {
-//                throw new Error("ارسال به سرور با خطا مواجه شد.");
-//            }
-//        })
-//        .then(data => {
-//            console.log("پاسخ از سرور:", data);
-//            alert("پاسخ‌ها با موفقیت ثبت شدند!");
-//        })
-//        .catch(error => {
-//            console.error("خطا در ارسال به سرور:", error);
-//            alert("خطا در ارسال پاسخ‌ها به سرور.");
-//        });
-//}
 function submitQuiz() {
-    // انتخاب تمام سوالات
+    // بررسی زمان باقی‌مانده
+    const remainingTime = parseInt(localStorage.getItem("remainingTime"), 10);
+    if (remainingTime <= 0 || isNaN(remainingTime)) {
+        alert("زمان شما به اتمام رسیده است و امکان ارسال آزمون وجود ندارد.");
+        return; // ارسال آزمون متوقف شود
+    }
+
+    // نمایش پیغام تأیید
+    const isConfirmed = confirm("آیا مطمئن هستید که می‌خواهید آزمون را خاتمه دهید؟");
+    if (!isConfirmed) {
+        return; // اگر کاربر لغو کرد، ارسال انجام نمی‌شود
+    }
+
+
+    // صفر کردن زمان باقی‌مانده
+    clearInterval(timerInterval);
+    localStorage.removeItem("remainingTime");
+
+    // ادامه ارسال آزمون
     const form = document.getElementById("quizForm");
     const formData = new FormData(form);
     const results = [];
@@ -143,24 +181,26 @@ function submitQuiz() {
 
     // پردازش پاسخ‌ها و جمع‌آوری داده‌ها برای ارسال به سرور
     for (const [key, value] of formData.entries()) {
-        // پیدا کردن سوال مرتبط با استفاده از name در تگ h5
         const questionLabel = document.querySelector(`h5[name="${key}"]`).textContent;
 
-        // اضافه کردن به نتایج
         results.push({
-            questionId: key, // شناسه سوال
-            questionText: questionLabel, // متن سوال
-            answer: value || "پاسخ داده نشده" // پاسخ کاربر
+            questionId: key,
+            questionText: questionLabel,
+            answer: value || "پاسخ داده نشده"
         });
     }
 
+    // غیرفعال کردن تمام ورودی‌ها و دکمه‌ها در فرم
+    const inputs = form.querySelectorAll("input, button");
+    inputs.forEach(input => input.disabled = true);
+
     // ارسال داده‌ها به سمت سرور
-    sendResultsToServer(results, userInfo);
+    sendResultsToServer(results, userInfo.username);
 }
 
 function sendResultsToServer(results, userInfo) {
-    
-    const apiUrl = "/qApi/QuizApi/SendResultToServer"; // آدرس کنترلر یا API سمت سرور
+
+    const apiUrl = "/qApi/QuizApi/SendResultToServer?userName=" + userInfo; // آدرس کنترلر یا API سمت سرور
     fetch(apiUrl, {
         method: "POST", // ارسال درخواست POST
         headers: {
@@ -177,7 +217,6 @@ function sendResultsToServer(results, userInfo) {
         })
         .then(data => {
             console.log("پاسخ از سرور:", data);
-
             // نمایش نتایج بر اساس پاسخ API
             showResults(data.results, userInfo);
         })
@@ -187,29 +226,32 @@ function sendResultsToServer(results, userInfo) {
         });
 }
 
-//function showResults(results) {
-//    const resultSection = document.querySelector(".result-section");
-//    debugger;
-//    // ایجاد لیست نمایش نتایج
-//    const resultList = results.map(result => `
-//        <li style="color: ${result.isCorrect ? 'green' : 'red'}">
-//            <strong>${result.questionText}</strong>:
-//            - پاسخ شما: گزینه ${result.answer}
-//            ${!result.isCorrect ? ' (پاسخ شما اشتباه است)' : ''}
-//        </li>
-//    `).join('');
+async function loginApi(userInfo) {
+    const apiUrl = "/qApi/QuizApi/Login"; // آدرس کنترلر یا API سمت سرور
+    try {
+        const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userInfo)
+        });
 
-//    // نمایش پیام و لیست نتایج
-//    resultSection.innerHTML = `
-//        <h3 class="text-success">نتایج آزمون:</h3>
-//        <ul>${resultList}</ul>
-//    `;
+        if (!response.ok) {
+            throw new Error("ارسال به سرور با خطا مواجه شد.");
+        }
 
-//    // نمایش بخش نتیجه
-//    resultSection.style.display = "block";
-//}
-
+        const data = await response.json(); // پاسخ JSON از سرور
+        console.log("پاسخ از سرور:", data);
+        return data; // بازگرداندن داده
+    } catch (error) {
+        console.error("خطا در ارسال به سرور:", error);
+        alert("خطا در ارسال پاسخ‌ها به سرور.");
+        throw error; // برای مدیریت خطا در فراخوانی تابع
+    }
+}
 function showResults(results, userInfo) {
+    // محاسبه اطلاعات آزمون
     const totalQuestions = results.length;
     const answeredQuestions = results.filter(result => result.answer).length;
     const unansweredQuestions = totalQuestions - answeredQuestions;
@@ -218,6 +260,7 @@ function showResults(results, userInfo) {
     const score = Math.round((correctAnswers / totalQuestions) * 100);
     const passStatus = score >= 70 ? "قبول" : "مردود";
 
+    // محتوای HTML
     const popupContent = `
         <!DOCTYPE html>
         <html lang="fa">
@@ -258,10 +301,18 @@ function showResults(results, userInfo) {
                     margin-top: 20px;
                     font-size: 0.9rem;
                 }
-                .results-header {
-                    font-family: 'B Nazanin', Arial, sans-serif;
-                    text-align: center;
+                .info-row {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    align-items: center;
                     margin-bottom: 20px;
+                    border-bottom: 1px solid #ddd;
+                    padding-bottom: 15px;
+                }
+                .info-row span {
+                    margin: 0 15px;
+                    font-size: 1rem;
                 }
                 .result-list {
                     padding: 0;
@@ -281,9 +332,6 @@ function showResults(results, userInfo) {
                     background-color: #f8d7da;
                     color: #721c24;
                 }
-                .info-card {
-                    margin-bottom: 15px;
-                }
                 .buttons {
                     display: flex;
                     justify-content: space-between;
@@ -296,30 +344,18 @@ function showResults(results, userInfo) {
                 <div class="header">
                     <h1>نتایج آزمون</h1>
                 </div>
-                <div class="row mb-4">
-                    <div class="col-md-6 info-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">اطلاعات کاربر</h5>
-                                <p class="card-text">نام و نام خانوادگی: ${userInfo.fullName}</p>
-                                <p class="card-text">نام کاربری: ${userInfo.username}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 info-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">وضعیت آزمون</h5>
-                                <p class="card-text">تعداد کل سوالات: ${totalQuestions}</p>
-                                <p class="card-text">تعداد پاسخ داده شده: ${answeredQuestions}</p>
-                                <p class="card-text">تعداد پاسخ نداده: ${unansweredQuestions}</p>
-                                <p class="card-text">تعداد پاسخ صحیح: ${correctAnswers}</p>
-                                <p class="card-text">تعداد پاسخ غلط: ${incorrectAnswers}</p>
-                                <p class="card-text">نمره: ${score}٪</p>
-                                <p class="card-text ${passStatus === "قبول" ? 'text-success' : 'text-danger'}">وضعیت: ${passStatus}</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="info-row">
+                    <span><strong>نام:</strong> ${userInfo.fullName}</span>
+                    <span><strong>نام کاربری:</strong> ${userInfo.username}</span>
+                </div>
+                <div class="info-row">
+                    <span><strong>تعداد کل سوالات:</strong> ${totalQuestions}</span>
+                    <span><strong>تعداد پاسخ داده شده:</strong> ${answeredQuestions}</span>
+                    <span><strong>تعداد پاسخ نداده:</strong> ${unansweredQuestions}</span>
+                    <span><strong>تعداد پاسخ صحیح:</strong> ${correctAnswers}</span>
+                    <span><strong>تعداد پاسخ غلط:</strong> ${incorrectAnswers}</span>
+                    <span><strong>نمره:</strong> ${score}٪</span>
+                    <span><strong>وضعیت:</strong> <span class="${passStatus === "قبول" ? 'text-success' : 'text-danger'}">${passStatus}</span></span>
                 </div>
                 <div class="results-header">
                     <h2>بررسی پاسخ‌های شما</h2>
@@ -356,12 +392,25 @@ function showResults(results, userInfo) {
         alert("باز کردن پاپ‌آپ ممکن نیست. لطفاً پاپ‌آپ را فعال کنید.");
     }
 }
-
-
 // مقداردهی اولیه در صفحه آزمون
 document.addEventListener("DOMContentLoaded", () => {
-    if (window.location.pathname==="/Quiz/QuizOnline") {
+    if (window.location.pathname === "/Quiz/QuizOnline") {
         loadUserInfo();
-        startTimer(300); // تایمر 5 دقیقه
+
+        const savedTime = parseInt(localStorage.getItem("remainingTime"), 10);
+        const initialTime = isNaN(savedTime) ? 300 : savedTime; // اگر زمان ذخیره‌شده موجود نیست، مقدار اولیه 5 دقیقه
+        startTimer(initialTime);
+    }
+});
+document.addEventListener("DOMContentLoaded", () => {
+    const loginForm = document.getElementById("loginForm"); // فرض کنید فرم لاگین دارای این ID باشد
+
+    if (loginForm) {
+        loginForm.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault(); // جلوگیری از ارسال پیش‌فرض فرم
+                login(); // فراخوانی تابع لاگین
+            }
+        });
     }
 });

@@ -66,5 +66,63 @@ namespace SimpleQuiz
                 throw ex;
             }
         }
+        public int Signup(UserInfoViewModel user)
+        {
+            try
+            {
+                int[] res;
+                using (IDbConnection db = new SqlConnection(_connectionStr))
+                {
+                    res = db.Query<int>("Quiz_InsertUsers", user, commandType: CommandType.StoredProcedure).ToArray();
+                }
+                return res[0];
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public UserInfoViewModel UserInfo(UserInfoViewModel user)
+        {
+            try
+            {
+                UserInfoViewModel? userInfo;
+                using (IDbConnection db = new SqlConnection(_connectionStr))
+                {
+                    userInfo = db.Query<UserInfoViewModel>("SELECT * FROM Users WHERE UserName=@UserName", user).SingleOrDefault();
+                }
+                return userInfo;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public int SaveQuizHistory(string userName, List<UserQuizViewModel> model)
+        {
+            try
+            {
+                int[] QuizHistoryID;
+                using (IDbConnection db = new SqlConnection(_connectionStr))
+                {
+                    int correctCount = model.Count(x => x.IsCorrect);
+                    var SaveHistoryParameters = new { UserName = userName, QuizScore = correctCount, QuizDate = DateTime.Now };
+                    QuizHistoryID = db.Query<int>("Quiz_SaveHistory", SaveHistoryParameters, commandType: CommandType.StoredProcedure).ToArray();
+                    foreach (UserQuizViewModel question in model)
+                    {
+                        var SaveHistoryDetailsParameters = new { QuizHistoryID = QuizHistoryID[0], QuestionId = question.QuestionId.Replace("question",""), Answer = question.Answer, IsCorrect=question.IsCorrect };
+                        db.Query<int>("Quiz_SaveHistoryDetails", SaveHistoryDetailsParameters, commandType: CommandType.StoredProcedure).ToArray();
+                    }
+                }
+                return QuizHistoryID[0];
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }
