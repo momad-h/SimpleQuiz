@@ -17,10 +17,10 @@ async function login() {
         //window.location.href = "/Quiz/QuizOnline";
         window.location.href = await generateLinkApi();
     } else {
-        alert("نام کاربری یا رمز عبور اشتباه است.");
+        //alert("نام کاربری یا رمز عبور اشتباه است.");
+        customAlert("خطا", "نام کاربری یا رمز عبور اشتباه است.", "error", false, "بستن");
     }
 }
-
 
 async function generateLinkApi() {
     const apiUrl = "/qApi/QuizApi/GenerateSecureLink"; // آدرس کنترلر یا API سمت سرور
@@ -45,7 +45,6 @@ async function generateLinkApi() {
         throw error; // برای مدیریت خطا در فراخوانی تابع
     }
 }
-
 
 // کنترل ثبت‌نام
 async function signup() {
@@ -119,7 +118,6 @@ function loadUserInfo() {
     document.getElementById("userFullName").textContent = fullName;
     document.getElementById("userUsername").textContent = username;
 }
-
 // تایمر آزمون
 let timerInterval;
 function startTimer(duration) {
@@ -149,6 +147,66 @@ function startTimer(duration) {
         timeRemaining--;
     }, 1000);
 }
+// تابع برای گرفتن تمامی گزینه‌هایی که تیک خورده‌اند در جدول خاص
+// تابع برای گرفتن تمامی گزینه‌هایی که تیک خورده‌اند در جدول خاص به همراه اطلاعات سوال و پاسخ
+function getCheckedOptions() {
+    // ایجاد یک آرایه خالی برای ذخیره نتایج
+    let selectedOptions = [];
+
+    // گرفتن جدول با id="quiz"
+    const quizTable = document.getElementById('quiz');
+
+    if (quizTable) {
+        // گرفتن تمامی سوالات (ردیف‌های اصلی)
+        const questionRows = quizTable.querySelectorAll('tbody > tr');
+
+        questionRows.forEach((row) => {
+            // پیدا کردن متن سوال
+            const questionTextElement = row.querySelector('td[name]');
+            if (questionTextElement) {
+                const questionText = questionTextElement.textContent.trim();
+                const questionName = questionTextElement.getAttribute('name');
+
+                // پیدا کردن جدول پاسخ‌ها برای این سوال
+                const responseTable = row.nextElementSibling?.querySelector('tbody');
+
+                if (responseTable) {
+                    const radios = responseTable.querySelectorAll(`input[type="radio"][name="${questionName}"]`);
+
+                    // پیدا کردن گزینه انتخاب‌شده
+                    const selectedRadio = Array.from(radios).find(radio => radio.checked);
+
+                    if (selectedRadio) {
+                        // پیدا کردن متن پاسخ انتخاب شده
+                        const responseLabel = selectedRadio.closest('label');
+                        const responseText = responseLabel ? responseLabel.textContent.trim() : "";
+
+                        selectedOptions.push({
+                            question: questionText,
+                            name: selectedRadio.name,
+                            id: selectedRadio.id,
+                            value: selectedRadio.value,
+                            response: responseText
+                        });
+                    } else {
+                        // اگر سوالی پاسخ داده نشده بود
+                        selectedOptions.push({
+                            question: questionText,
+                            name: questionName,
+                            id: null,
+                            value: null,
+                            response: null // مشخص کردن پاسخ‌ندادن
+                        });
+                    }
+                }
+            }
+        });
+    }
+    // بازگشت آرایه
+    console.log(JSON.stringify({ answers: selectedOptions }));
+    sendResultsToServer(selectedOptions, 1);
+}
+
 
 function submitQuiz() {
     // بررسی زمان باقی‌مانده
@@ -195,12 +253,10 @@ function submitQuiz() {
     inputs.forEach(input => input.disabled = true);
 
     // ارسال داده‌ها به سمت سرور
-    sendResultsToServer(results, userInfo.username);
+    sendResultsToServer(results, userInfo);
 }
-
 function sendResultsToServer(results, userInfo) {
-
-    const apiUrl = "/qApi/QuizApi/SendResultToServer?userName=" + userInfo; // آدرس کنترلر یا API سمت سرور
+    const apiUrl = "/qApi/QuizApi/SendResultToServer?userName=1"// + userInfo.username; // آدرس کنترلر یا API سمت سرور
     fetch(apiUrl, {
         method: "POST", // ارسال درخواست POST
         headers: {
@@ -225,7 +281,6 @@ function sendResultsToServer(results, userInfo) {
             alert("خطا در ارسال پاسخ‌ها به سرور.");
         });
 }
-
 async function loginApi(userInfo) {
     const apiUrl = "/qApi/QuizApi/Login"; // آدرس کنترلر یا API سمت سرور
     try {
@@ -392,6 +447,34 @@ function showResults(results, userInfo) {
         alert("باز کردن پاپ‌آپ ممکن نیست. لطفاً پاپ‌آپ را فعال کنید.");
     }
 }
+function customAlert(title, text, type, showCancelButton, confirmButtonText, cancelButtonText ="") {
+    $('body').removeClass('timer-alert');
+    swal({
+        title: title,
+        text: text,
+        type: type,
+        showCancelButton: showCancelButton,
+        confirmButtonText: confirmButtonText,
+        cancelButtonText: cancelButtonText
+    });
+}
+document.addEventListener("DOMContentLoaded", function () {
+    setInterval(function time() {
+        var d = new Date();
+        var hours = 24 - d.getHours();
+        var min = 60 - d.getMinutes();
+        if ((min + '').length == 1) {
+            min = '0' + min;
+        }
+        var sec = 60 - d.getSeconds();
+        if ((sec + '').length == 1) {
+            sec = '0' + sec;
+        }
+        document.querySelector('#countdown #hour').innerHTML = "00";
+        document.querySelector('#countdown #min').innerHTML = min;
+        document.querySelector('#countdown #sec').innerHTML = sec;
+    }, 1000);
+});
 // مقداردهی اولیه در صفحه آزمون
 document.addEventListener("DOMContentLoaded", () => {
     if (window.location.pathname === "/Quiz/QuizOnline") {
@@ -412,5 +495,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 login(); // فراخوانی تابع لاگین
             }
         });
+    }
+});
+document.addEventListener("change", (event) => {
+    if (event.target.classList.contains("form-check-input")) {
+        const parent = event.target.closest(".question");
+        if (parent) {
+            parent.querySelectorAll(".form-check-input").forEach(input => {
+                const label = input.parentElement;
+                label.classList.remove("selected-row");
+            });
+            event.target.parentElement.classList.add("selected-row");
+        }
     }
 });

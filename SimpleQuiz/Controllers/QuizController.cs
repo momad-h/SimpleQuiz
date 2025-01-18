@@ -13,12 +13,18 @@ namespace SimpleQuiz.Controllers
             _db = db;
             _tokenService = tokenService;
         }
-        public IActionResult Login()
+        public IActionResult Login2()
         {
             return View();
         }
         public IActionResult Signup()
         {
+            return View();
+        }
+        public IActionResult QuizOnline2()
+        {
+            ViewBag.Questions = _db.GetQuestions();
+            ViewBag.Responses = _db.GetResponses();
             return View();
         }
         public IActionResult QuizOnline(string token)

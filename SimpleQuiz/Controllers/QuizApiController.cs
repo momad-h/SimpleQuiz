@@ -30,6 +30,20 @@ namespace SimpleQuiz.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("SendResultToServer2")]
+        public IActionResult SendResultToServer([FromBody] dynamic model)
+        {
+            try
+            {
+                var x = model;
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpPost("SendResultToServer")]
         public IActionResult SendResultToServer([FromBody] QuizSubmissionModel model, [FromQuery] string userName)
         {
@@ -43,18 +57,18 @@ namespace SimpleQuiz.Controllers
                 // بررسی پاسخ‌ها
                 var result = model.Answers.Select(answer => new
                 {
-                    QuestionId = answer.QuestionId,
-                    QuestionText = answer.QuestionText,
-                    Answer = answer.Answer,
-                    IsCorrect = _db.CheckAnswer(answer.QuestionId, answer.Answer) // بررسی درست یا غلط بودن پاسخ
+                    QuestionText=answer.Question,
+                    QuestionId = answer.Name,
+                    Answer = answer.Value,
+                    Response=answer.Response,
+                    IsCorrect = _db.CheckAnswer(answer.Name, answer.Value) // بررسی درست یا غلط بودن پاسخ
                 }).ToList();
-
 
                 var userQuizList = model.Answers.Select(answer => new UserQuizViewModel
                 {
-                    QuestionId = answer.QuestionId,
-                    Answer = answer.Answer,
-                    IsCorrect = _db.CheckAnswer(answer.QuestionId, answer.Answer) // بررسی درست یا غلط بودن پاسخ
+                    QuestionId = answer.Name,
+                    Answer = answer.Value,
+                    IsCorrect = _db.CheckAnswer(answer.Name, answer.Value) // بررسی درست یا غلط بودن پاسخ
                 }).ToList();
 
                 _db.SaveQuizHistory(userName, userQuizList);
@@ -63,7 +77,6 @@ namespace SimpleQuiz.Controllers
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);
             }
         }
