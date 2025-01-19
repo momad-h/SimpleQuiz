@@ -58,7 +58,26 @@ namespace SimpleQuiz
                 {
                     correctAnswers = db.Query("SELECT 'question'+CAST(QuestionID AS NVARCHAR(5)) QuestionId,CAST(ResponseNumber AS NVARCHAR(5)) Answer FROM tempQuestions WHERE isTrue=1").ToDictionary(row => (string)row.QuestionId, row => (string)row.Answer);
                 }
+
                 return correctAnswers.TryGetValue(questionId, out var correctAnswer) && correctAnswer == answer;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public CheckResponseViewModel CheckAnswer2(string questionId, string answer)
+        {
+            try
+            {
+                CheckResponseViewModel? res;
+                using (IDbConnection db = new SqlConnection(_connectionStr))
+                {
+                    res = db.Query<CheckResponseViewModel>("CheckResponse",new{QuestionId= questionId,Answer= answer},commandType:CommandType.StoredProcedure).SingleOrDefault();
+                }
+
+                return res;
             }
             catch (Exception ex)
             {

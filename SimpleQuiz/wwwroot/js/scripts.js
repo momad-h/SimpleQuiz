@@ -306,12 +306,6 @@ async function loginApi(userInfo) {
         throw error; // برای مدیریت خطا در فراخوانی تابع
     }
 }
-function addResult() {
-    const respanel = document.getElementById('result');
-    respanel
-
-
-}
 function addRowsToTable(dataArray) {
     // انتخاب tbody با استفاده از id
     const tbody = document.getElementById("result");
@@ -347,12 +341,15 @@ function addRowsToTable(dataArray) {
 
         // ستون answer
         const tdAnswer = document.createElement("td");
-        tdAnswer.textContent = item.answer;
+        tdAnswer.textContent = item.correctOpion;
         tr.appendChild(tdAnswer);
 
         // افزودن ردیف به tbody
         tbody.appendChild(tr);
     });
+
+    document.getElementById('quiz-panel').style.display = 'none';
+    document.getElementById('result-panel').style.display = 'block';
 }
 
 function showResults(results, userInfo) {

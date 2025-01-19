@@ -3,7 +3,7 @@
     Layout = "_MainLayout";
 }
 
-<div class="col-lg-12">
+<div class="col-lg-12" id="quiz-panel">
     <div class="row">
         <div class="col-xl-6 col-md-6">
             <div class="card ribbone-card">
@@ -94,40 +94,73 @@
         </div>
     </div>
 </div>
-<div class="col-lg-12">
+<div class="col-lg-12" id="result-panel">
+    <div class="row">
+        <div class="col-sm-9 col-xl-9 col-md-9 col-lg-9">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h6 class=""><span class="text-primary"><i class="fe fe-file-text mx-2 fs-20 text-primary-shadow"></i></span>نمره کل</h6>
+                    <h3 class="text-dark counter mt-0 mb-3 number-font">3</h3>
+                    <div class="progress h-1 mt-0 mb-2">
+                        <div class="progress-bar progress-bar-striped bg-primary" style="width: 70%;" role="progressbar"></div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col text-center">
+                            <span class="text-muted">تعداد سوالات</span>
+                            <h4 class="fw-normal mt-2 mb-0 number-font1">8</h4>
+                        </div>
+                        <div class="col text-center">
+                            <span class="text-muted">پاسخ داده</span>
+                            <h4 class="fw-normal mt-2 mb-0 number-font2">23</h4>
+                        </div>
+                        <div class="col text-center">
+                            <span class="text-muted">بدون پاسخ</span>
+                            <h4 class="fw-normal mt-2 mb-0 number-font3">31</h4>
+                        </div>
+                        <div class="col text-center">
+                            <span class="text-muted">صحیح</span>
+                            <h4 class="fw-normal mt-2 mb-0 number-font3">31</h4>
+                        </div>
+                        <div class="col text-center">
+                            <span class="text-muted">نادرست</span>
+                            <h4 class="fw-normal mt-2 mb-0 number-font3">31</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+            <div class="col-sm-12 col-md-12 col-lg-12  col-xl-12">
+                <div class="card widgets-cards bg-danger box-danger-shadow">
+                    <div class="card-body d-flex justify-content-center align-items-center">
+                        <div class="chart-circle chart-circle-sm ms-3 mt-1" data-value="0.42" data-thickness="6" data-bs-color="#c21a1a">
+                            <div class="chart-circle-value text-white">37%</div>
+                        </div>
+                        <div class="wrp text-wrapper text-white p-3">
+                            <p class="mt-0">345</p>
+                            <p class=" mt-1 mb-0">This Week Comments</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="expanel expanel-success">
         <div class="expanel-heading">
             <h3 class="expanel-title">نتیجه آزمون</h3>
         </div>
         <div class="expanel-body">
             <div class="card-body">
-                <p>Use contextual classes to color tables, table rows or individual cells.</p>
                 <div class="table-responsive">
                     <table class="table border text-nowrap text-md-nowrap mb-0">
                         <thead>
-                            <tr>
+                            <tr class="table-light">
                                 <th>سوال</th>
-                                <th>پاسخ صحیح</th>
                                 <th>پاسخ شما</th>
+                                <th>پاسخ صحیح</th>
                             </tr>
                         </thead>
                         <tbody id="result">
-                            <tr class="table-success">
-                                <td>1</td>
-                                <td>Joan Powell</td>
-                                <td>Associate Developer</td>
-                            </tr>
-                            <tr class="table-success">
-                                <td>4</td>
-                                <td>Julian Kerr</td>
-                                <td>Senior Javascript Developer</td>
-                            </tr>
-                            <tr></tr>
-                            <tr class="table-danger">
-                                <td>5</td>
-                                <td>Cedric Kelly</td>
-                                <td>Accountant</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
