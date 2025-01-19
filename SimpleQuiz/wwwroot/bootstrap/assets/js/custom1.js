@@ -931,7 +931,7 @@
         $("html[lang=en]").attr("dir", "rtl");
         $('body').removeClass('ltr');
         $("head link#style").attr("href", $(this));
-        (document.getElementById("style").setAttribute("href", "../assets/plugins/bootstrap/css/bootstrap.rtl.min.css"));
+        (document.getElementById("style").setAttribute("href", "/bootstrap/assets/plugins/bootstrap/css/bootstrap.rtl.min.css"));
         var carousel = $('.owl-carousel');
         $.each(carousel, function (index, element) {
             // element == this
@@ -1010,7 +1010,7 @@ $(document).on("click", '#myonoffswitch24', function () {
         $("html[lang=en]").attr("dir", "rtl");
         $('body').removeClass('ltr');
         $("head link#style").attr("href", $(this));
-        (document.getElementById("style").setAttribute("href", "../assets/plugins/bootstrap/css/bootstrap.rtl.min.css"));
+        (document.getElementById("style").setAttribute("href", "/bootstrap/assets/plugins/bootstrap/css/bootstrap.rtl.min.css"));
         var carousel = $('.owl-carousel');
         $.each(carousel, function (index, element) {
             // element == this
@@ -1035,7 +1035,7 @@ $(document).on("click", '#myonoffswitch23', function () {
         $("html[lang=en]").attr("dir", "ltr");
         $('body').removeClass('rtl');
         $("head link#style").attr("href", $(this));
-        (document.getElementById("style").setAttribute("href", "../assets/plugins/bootstrap/css/bootstrap.min.css"));
+        (document.getElementById("style").setAttribute("href", "/bootstrap/assets/plugins/bootstrap/css/bootstrap.min.css"));
         var carousel = $('.owl-carousel');
         $.each(carousel, function (index, element) {
             // element == this
@@ -1306,7 +1306,7 @@ function resetData() {
     }
     
     $("head link#style").attr("href", $(this));
-    (document.getElementById("style").setAttribute("href", "../assets/plugins/bootstrap/css/bootstrap.min.css"));
+    (document.getElementById("style").setAttribute("href", "/bootstrap/assets/plugins/bootstrap/css/bootstrap.min.css"));
 }
 
 

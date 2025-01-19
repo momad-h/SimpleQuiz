@@ -70,7 +70,7 @@ namespace SimpleQuiz.Controllers
                     Answer = answer.Value,
                     IsCorrect = _db.CheckAnswer(answer.Name, answer.Value) // بررسی درست یا غلط بودن پاسخ
                 }).ToList();
-
+                
                 _db.SaveQuizHistory(userName, userQuizList);
 
                 return Ok(new { Message = "پاسخ‌ها بررسی شدند.", Results = result });

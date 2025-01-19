@@ -274,6 +274,7 @@ function sendResultsToServer(results, userInfo) {
         .then(data => {
             console.log("پاسخ از سرور:", data);
             // نمایش نتایج بر اساس پاسخ API
+            addRowsToTable(data.results);
             showResults(data.results, userInfo);
         })
         .catch(error => {
@@ -305,6 +306,55 @@ async function loginApi(userInfo) {
         throw error; // برای مدیریت خطا در فراخوانی تابع
     }
 }
+function addResult() {
+    const respanel = document.getElementById('result');
+    respanel
+
+
+}
+function addRowsToTable(dataArray) {
+    // انتخاب tbody با استفاده از id
+    const tbody = document.getElementById("result");
+
+    // حذف تمام ردیف‌های موجود (در صورت نیاز)
+    tbody.innerHTML = "";
+
+    // پیمایش در آرایه ورودی
+    dataArray.forEach(item => {
+        // ایجاد یک ردیف جدید
+        const tr = document.createElement("tr");
+
+        // تنظیم کلاس ردیف بر اساس مقدار isCorrect
+        if (item.isCorrect === true) {
+            tr.className = "table-success";
+        } else if (item.isCorrect === false) {
+            tr.className = "table-danger";
+        } else {
+            tr.className = "table-default";
+        }
+
+        // ایجاد و افزودن سلول‌ها برای هر ستون
+
+        // ستون questionText
+        const tdQuestionText = document.createElement("td");
+        tdQuestionText.textContent = item.questionText;
+        tr.appendChild(tdQuestionText);
+
+        // ستون response
+        const tdResponse = document.createElement("td");
+        tdResponse.textContent = item.response;
+        tr.appendChild(tdResponse);
+
+        // ستون answer
+        const tdAnswer = document.createElement("td");
+        tdAnswer.textContent = item.answer;
+        tr.appendChild(tdAnswer);
+
+        // افزودن ردیف به tbody
+        tbody.appendChild(tr);
+    });
+}
+
 function showResults(results, userInfo) {
     // محاسبه اطلاعات آزمون
     const totalQuestions = results.length;
