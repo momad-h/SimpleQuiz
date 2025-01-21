@@ -100,47 +100,43 @@
             <div class="card">
                 <div class="card-body text-center">
                     <h6 class=""><span class="text-primary"><i class="fe fe-file-text mx-2 fs-20 text-primary-shadow"></i></span>نمره کل</h6>
-                    <h3 class="text-dark counter mt-0 mb-3 number-font">3</h3>
+                    <h3 class="text-dark counter mt-0 mb-3 number-font" id="totalScore">3</h3>
                     <div class="progress h-1 mt-0 mb-2">
-                        <div class="progress-bar progress-bar-striped bg-primary" style="width: 70%;" role="progressbar"></div>
+                        <div class="progress-bar progress-bar-striped bg-primary" style="width: 70%;" role="progressbar" id="scoreBar"></div>
                     </div>
                     <div class="row mt-4">
                         <div class="col text-center">
                             <span class="text-muted">تعداد سوالات</span>
-                            <h4 class="fw-normal mt-2 mb-0 number-font1">8</h4>
+                            <h4 class="fw-normal mt-2 mb-0 number-font1" id="totalQuestions">0</h4>
                         </div>
                         <div class="col text-center">
                             <span class="text-muted">پاسخ داده</span>
-                            <h4 class="fw-normal mt-2 mb-0 number-font2">23</h4>
+                            <h4 class="fw-normal mt-2 mb-0 number-font2" id="answeredQuestions">0</h4>
                         </div>
                         <div class="col text-center">
                             <span class="text-muted">بدون پاسخ</span>
-                            <h4 class="fw-normal mt-2 mb-0 number-font3">31</h4>
+                            <h4 class="fw-normal mt-2 mb-0 number-font3" id="unansweredQuestions">0</h4>
                         </div>
                         <div class="col text-center">
                             <span class="text-muted">صحیح</span>
-                            <h4 class="fw-normal mt-2 mb-0 number-font3">31</h4>
+                            <h4 class="fw-normal mt-2 mb-0 number-font3" id="correctAnswers">0</h4>
                         </div>
                         <div class="col text-center">
                             <span class="text-muted">نادرست</span>
-                            <h4 class="fw-normal mt-2 mb-0 number-font3">31</h4>
+                            <h4 class="fw-normal mt-2 mb-0 number-font3" id="incorrectAnswers">0</h4>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
-            <div class="col-sm-12 col-md-12 col-lg-12  col-xl-12">
-                <div class="card widgets-cards bg-danger box-danger-shadow">
-                    <div class="card-body d-flex justify-content-center align-items-center">
-                        <div class="chart-circle chart-circle-sm ms-3 mt-1" data-value="0.42" data-thickness="6" data-bs-color="#c21a1a">
-                            <div class="chart-circle-value text-white">37%</div>
-                        </div>
-                        <div class="wrp text-wrapper text-white p-3">
-                            <p class="mt-0">345</p>
-                            <p class=" mt-1 mb-0">This Week Comments</p>
-                        </div>
-                    </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fa fa-minus-circle text-danger fa-3x" id="quizResultIconFailed"></i>
+                    <i class="fa fa-check-circle text-success fa-3x" id="quizResultIconPass"></i>
+                    <h5 class="mt-4 mb-2" id="passStatus">مردود</h5>
+                    <h2 class="mb-2 number-font" id="score">30%</h2>
+                    <p class="text-muted" id="quizMinScore">حد مجاز نمره قبولی - 50%</p>
                 </div>
             </div>
         </div>

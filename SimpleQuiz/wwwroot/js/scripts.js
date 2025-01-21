@@ -275,7 +275,8 @@ function sendResultsToServer(results, userInfo) {
             console.log("پاسخ از سرور:", data);
             // نمایش نتایج بر اساس پاسخ API
             addRowsToTable(data.results);
-            showResults(data.results, userInfo);
+            //showResults(data.results, userInfo);
+            setQuizResult(data.results);
         })
         .catch(error => {
             console.error("خطا در ارسال به سرور:", error);
@@ -351,7 +352,38 @@ function addRowsToTable(dataArray) {
     document.getElementById('quiz-panel').style.display = 'none';
     document.getElementById('result-panel').style.display = 'block';
 }
+function setQuizResult(results) {
+    const minScoreToPass = 70;
+    const totalQuestions = results.length;
+    const answeredQuestions = results.filter(result => result.answer).length;
+    const unansweredQuestions = totalQuestions - answeredQuestions;
+    const correctAnswers = results.filter(result => result.isCorrect).length;
+    const incorrectAnswers = answeredQuestions - correctAnswers;
+    const totalScore =correctAnswers * 10;
+    const score = Math.round((correctAnswers / totalQuestions) * 100);
+    const passStatus = score >= minScoreToPass ? "قبول" : "مردود";
 
+    document.getElementById('totalQuestions').innerText = totalQuestions;
+    document.getElementById('answeredQuestions').innerText = answeredQuestions;
+    document.getElementById('unansweredQuestions').innerText = unansweredQuestions;
+    document.getElementById('correctAnswers').innerText = correctAnswers;
+    document.getElementById('incorrectAnswers').innerText = incorrectAnswers;
+    document.getElementById('totalScore').innerText = totalScore;
+    document.getElementById('score').innerText = score + '%';
+    document.getElementById('passStatus').innerText = passStatus;
+    document.getElementById('scoreBar').style.width = score + '%';
+    document.getElementById('quizMinScore').innerText = 'حد مجاز نمره قبولی - ' + minScoreToPass +'%';
+
+
+    if (score >= minScoreToPass) {
+        document.getElementById('quizResultIconFailed').style.display = 'none';
+        document.getElementById('quizResultIconPass').style.display = 'block';
+    }
+    else {
+        document.getElementById('quizResultIconFailed').style.display = 'block';
+        document.getElementById('quizResultIconPass').style.display = 'none';
+    }
+}
 function showResults(results, userInfo) {
     // محاسبه اطلاعات آزمون
     const totalQuestions = results.length;
