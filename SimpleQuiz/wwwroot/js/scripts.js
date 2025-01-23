@@ -538,20 +538,46 @@ function customAlert(title, text, type, showCancelButton, confirmButtonText, can
     });
 }
 document.addEventListener("DOMContentLoaded", function () {
-    setInterval(function time() {
-        var d = new Date();
-        var hours = 24 - d.getHours();
-        var min = 60 - d.getMinutes();
-        if ((min + '').length == 1) {
-            min = '0' + min;
+    //setInterval(function time() {
+    //    var d = new Date();
+    //    var hours = 24 - d.getHours();
+    //    var min = d.getMinutes();
+    //    if ((min + '').length == 1) {
+    //        min = '0' + min;
+    //    }
+    //    var sec = 60 - d.getSeconds();
+    //    if ((sec + '').length == 1) {
+    //        sec = '0' + sec;
+    //    }
+    //    document.querySelector('#countdown #hour').innerHTML = "00";
+    //    document.querySelector('#countdown #min').innerHTML = min;
+    //    document.querySelector('#countdown #sec').innerHTML = sec;
+    //}, 1000);
+    const targetTime = new Date();
+    targetTime.setMinutes(targetTime.getMinutes() + 30); // ۳۰ دقیقه بعد
+
+    setInterval(function () {
+        const now = new Date(); // زمان فعلی
+        const difference = targetTime - now; // تفاوت زمان هدف و زمان فعلی به میلی‌ثانیه
+
+        // اگر زمان به پایان رسیده باشد، تایمر را متوقف می‌کنیم
+        if (difference <= 0) {
+            clearInterval(this);
+            document.querySelector('#countdown #hour').innerHTML = "00";
+            document.querySelector('#countdown #min').innerHTML = "00";
+            document.querySelector('#countdown #sec').innerHTML = "00";
+            return;
         }
-        var sec = 60 - d.getSeconds();
-        if ((sec + '').length == 1) {
-            sec = '0' + sec;
-        }
-        document.querySelector('#countdown #hour').innerHTML = "00";
-        document.querySelector('#countdown #min').innerHTML = min;
-        document.querySelector('#countdown #sec').innerHTML = sec;
+
+        // محاسبه ساعت، دقیقه و ثانیه باقی‌مانده
+        const hours = Math.floor(difference / (1000 * 60 * 60));
+        const min = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const sec = Math.floor((difference % (1000 * 60)) / 1000);
+
+        // نمایش زمان به صورت دو رقمی
+        document.querySelector('#countdown #hour').innerHTML = String(hours).padStart(2, '0');
+        document.querySelector('#countdown #min').innerHTML = String(min).padStart(2, '0');
+        document.querySelector('#countdown #sec').innerHTML = String(sec).padStart(2, '0');
     }, 1000);
 });
 // مقداردهی اولیه در صفحه آزمون
