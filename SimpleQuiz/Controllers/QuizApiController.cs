@@ -62,7 +62,8 @@ namespace SimpleQuiz.Controllers
                     Answer = answer.Value,
                     Response=answer.Response,
                     IsCorrect = _db.CheckAnswer2(answer.Name, answer.Value).IsCorrect, // بررسی درست یا غلط بودن پاسخ
-                    CorrectOpion= _db.CheckAnswer2(answer.Name, answer.Value).Questions
+                    CorrectOpion= _db.CheckAnswer2(answer.Name, answer.Value).Questions,
+                    Score= _db.CheckAnswer2(answer.Name, answer.Value).Score
                 }).ToList();
 
                 var userQuizList = model.Answers.Select(answer => new UserQuizViewModel

@@ -276,7 +276,7 @@ function sendResultsToServer(results, userInfo) {
             // نمایش نتایج بر اساس پاسخ API
             addRowsToTable(data.results);
             //showResults(data.results, userInfo);
-            setQuizResult(data.results);
+            setQuizResult(data.results,1);
         })
         .catch(error => {
             console.error("خطا در ارسال به سرور:", error);
@@ -352,14 +352,21 @@ function addRowsToTable(dataArray) {
     document.getElementById('quiz-panel').style.display = 'none';
     document.getElementById('result-panel').style.display = 'block';
 }
-function setQuizResult(results) {
+function setQuizResult(results, isNegative) {
     const minScoreToPass = 70;
     const totalQuestions = results.length;
     const answeredQuestions = results.filter(result => result.answer).length;
     const unansweredQuestions = totalQuestions - answeredQuestions;
     const correctAnswers = results.filter(result => result.isCorrect).length;
     const incorrectAnswers = answeredQuestions - correctAnswers;
-    const totalScore =correctAnswers * 10;
+    const totalScore = results.reduce((sum, result) => {
+        if (result.isCorrect) {
+            return sum + result.score; // اضافه کردن نمره سوال صحیح
+        } else if (result.isCorrect === false && isNegative) {
+            return sum - 0.33; // کم کردن ۰.۳۳ برای پاسخ غلط (اگر نمره منفی فعال باشد)
+        }
+        return sum; // اگر isCorrect = null باشد، تغییری ایجاد نشود
+    }, 0);
     const score = Math.round((correctAnswers / totalQuestions) * 100);
     const passStatus = score >= minScoreToPass ? "قبول" : "مردود";
 
@@ -537,6 +544,7 @@ function customAlert(title, text, type, showCancelButton, confirmButtonText, can
         cancelButtonText: cancelButtonText
     });
 }
+const quizTime = document.getElementById('quiztime').textContent * 1;
 document.addEventListener("DOMContentLoaded", function () {
     //setInterval(function time() {
     //    var d = new Date();
@@ -554,7 +562,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //    document.querySelector('#countdown #sec').innerHTML = sec;
     //}, 1000);
     const targetTime = new Date();
-    targetTime.setMinutes(targetTime.getMinutes() + 30); // ۳۰ دقیقه بعد
+    targetTime.setMinutes(targetTime.getMinutes() + quizTime); // ۳۰ دقیقه بعد
 
     setInterval(function () {
         const now = new Date(); // زمان فعلی

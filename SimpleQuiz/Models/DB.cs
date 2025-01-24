@@ -85,6 +85,42 @@ namespace SimpleQuiz
                 throw ex;
             }
         }
+        public QuizInfo GetQuizInfo(int quizId)
+        {
+            try
+            {
+                QuizInfo? quiz;
+                using (IDbConnection db = new SqlConnection(_connectionStr))
+                {
+                    quiz = db.Query<QuizInfo>("SELECT Quiz.ID, QuizName, QuizFarsiName, TypeName QuizType, NumberOfQuestions, QuizTime, REPLACE(REPLACE(NegativeScore,0,N'ندارد'),1,N'دارد') NegativeScore FROM Quiz JOIN QuizTypes ON QuizTypes.ID=QuizType WHERE Quiz.ID=@ID", new { ID = quizId }).SingleOrDefault();
+                }
+
+                return quiz;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public List<QuizInfo> GetQuizInfo()
+        {
+            try
+            {
+                List<QuizInfo>? quiz;
+                using (IDbConnection db = new SqlConnection(_connectionStr))
+                {
+                    quiz = db.Query<QuizInfo>("SELECT Quiz.ID, QuizName, QuizFarsiName, TypeName QuizType, NumberOfQuestions, QuizTime, REPLACE(REPLACE(NegativeScore,0,N'ندارد'),1,N'دارد') NegativeScore FROM Quiz JOIN QuizTypes ON QuizTypes.ID=QuizType").ToList();
+                }
+
+                return quiz;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public int Signup(UserInfoViewModel user)
         {
             try

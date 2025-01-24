@@ -25,6 +25,7 @@ namespace SimpleQuiz.Controllers
         {
             ViewBag.Questions = _db.GetQuestions();
             ViewBag.Responses = _db.GetResponses();
+            ViewBag.QuizInfo=_db.GetQuizInfo(1);
             return View();
         }
         public IActionResult QuizOnline(string token)

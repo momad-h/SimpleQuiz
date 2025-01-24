@@ -6,5 +6,6 @@
         public string? Answer { get; set; }
         public string? Questions { get; set; }
         public bool IsCorrect { get; set; }
+        public int Score { get; set; }
     }
 }
