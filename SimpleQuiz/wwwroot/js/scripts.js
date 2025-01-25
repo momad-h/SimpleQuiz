@@ -1,5 +1,6 @@
 // کنترل لاگین
 async function login() {
+    debugger;
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     const userInfos = {
@@ -16,7 +17,8 @@ async function login() {
         // هدایت به صفحه آزمون
         //window.location.href = "/Quiz/QuizOnline";
 
-        window.location.href = await generateLinkApi("Index", "Home", "Index");       
+        window.location.href = await generateLinkApi("Index", "Home", "Index");   
+        
     } else {
         //alert("نام کاربری یا رمز عبور اشتباه است.");
         customAlert("خطا", "نام کاربری یا رمز عبور اشتباه است.", "error", false, "بستن");
@@ -549,6 +551,7 @@ function customAlert(title, text, type, showCancelButton, confirmButtonText, can
     });
 }
 const quizTime = document.getElementById('quiztime').textContent * 1;
+
 document.addEventListener("DOMContentLoaded", function () {
     //setInterval(function time() {
     //    var d = new Date();
@@ -594,13 +597,11 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 // مقداردهی اولیه در صفحه آزمون
 document.addEventListener("DOMContentLoaded", () => {
-    debugger;
     loadUserInfo();
+    console.log(window.location.pathname);
     if (window.location.pathname === "/") {
 
-        const savedTime = parseInt(localStorage.getItem("remainingTime"), 10);
-        const initialTime = isNaN(savedTime) ? 300 : savedTime; // اگر زمان ذخیره‌شده موجود نیست، مقدار اولیه 5 دقیقه
-        startTimer(initialTime);
+        console.log(1);
     }
 });
 document.addEventListener("DOMContentLoaded", () => {
