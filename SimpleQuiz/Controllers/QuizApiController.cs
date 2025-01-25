@@ -139,10 +139,10 @@ namespace SimpleQuiz.Controllers
             }
         }
         [HttpGet("GenerateSecureLink")]
-        public IActionResult GenerateSecureLink()
+        public IActionResult GenerateSecureLink(string action,string controller,string page)
         {
-            var token = _tokenService.CreateToken("QuizOnline");
-            var secureLink = Url.Action("QuizOnline", "Quiz", new { token = token }, Request.Scheme);
+            var token = _tokenService.CreateToken(page);
+            var secureLink = Url.Action(action, controller, new { token = token }, Request.Scheme);
             return Ok(secureLink);
         }
     }

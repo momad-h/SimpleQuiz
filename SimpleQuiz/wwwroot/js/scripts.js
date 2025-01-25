@@ -15,15 +15,19 @@ async function login() {
         sessionStorage.setItem("username", userInfo.userName);
         // هدایت به صفحه آزمون
         //window.location.href = "/Quiz/QuizOnline";
-        window.location.href = await generateLinkApi();
+
+        window.location.href = await generateLinkApi("Index", "Home", "Index");       
     } else {
         //alert("نام کاربری یا رمز عبور اشتباه است.");
         customAlert("خطا", "نام کاربری یا رمز عبور اشتباه است.", "error", false, "بستن");
     }
 }
 
-async function generateLinkApi() {
-    const apiUrl = "/qApi/QuizApi/GenerateSecureLink"; // آدرس کنترلر یا API سمت سرور
+async function GetPage(action, controller, page) {
+    window.location.href = await generateLinkApi(action, controller, page);
+}
+async function generateLinkApi(action,controller,page) {
+    const apiUrl = "/qApi/QuizApi/GenerateSecureLink?action=" + action + "&controller=" + controller + "&page=" + page; // آدرس کنترلر یا API سمت سرور
     try {
         const response = await fetch(apiUrl, {
             method: "GET",
@@ -105,7 +109,7 @@ async function signupApi(userInfo) {
 }
 // مقداردهی اطلاعات کاربر در صفحه آزمون
 function loadUserInfo() {
-
+    debugger;
     const fullName = sessionStorage.getItem("fullName");
     const username = sessionStorage.getItem("username");
 
@@ -115,8 +119,8 @@ function loadUserInfo() {
         return;
     }
 
-    document.getElementById("userFullName").textContent = fullName;
-    document.getElementById("userUsername").textContent = username;
+    document.getElementById("username").textContent = username;
+    document.getElementById("fullName").textContent = fullName;
 }
 // تایمر آزمون
 let timerInterval;
@@ -353,7 +357,7 @@ function addRowsToTable(dataArray) {
     document.getElementById('result-panel').style.display = 'block';
 }
 function setQuizResult(results, isNegative) {
-    const minScoreToPass = 70;
+    const minScoreToPass = document.getElementById('minScoreToPass').value*1;
     const totalQuestions = results.length;
     const answeredQuestions = results.filter(result => result.answer).length;
     const unansweredQuestions = totalQuestions - answeredQuestions;
@@ -590,8 +594,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 // مقداردهی اولیه در صفحه آزمون
 document.addEventListener("DOMContentLoaded", () => {
-    if (window.location.pathname === "/Quiz/QuizOnline") {
-        loadUserInfo();
+    debugger;
+    loadUserInfo();
+    if (window.location.pathname === "/") {
 
         const savedTime = parseInt(localStorage.getItem("remainingTime"), 10);
         const initialTime = isNaN(savedTime) ? 300 : savedTime; // اگر زمان ذخیره‌شده موجود نیست، مقدار اولیه 5 دقیقه

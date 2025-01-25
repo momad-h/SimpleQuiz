@@ -1,0 +1,62 @@
+﻿@{
+    
+    ViewData["Title"] = "آزمون";
+}
+
+<div class="container mt-5">
+    <div class="header mb-4">
+        <h1>سامانه آزمون آنلاین</h1>
+    </div>
+    <div class="main-container">
+        <div id="userInfo" class="mb-4">
+            <p>نام: <span id="userFullName"></span></p>
+            <p>نام کاربری: <span id="userUsername"></span></p>
+            <a href="/Quiz/History" class="btn btn-secondary mt-3">مشاهده تاریخچه آزمون‌ها</a>
+        </div>
+        <div id="timer" class="alert alert-warning text-center mb-4">زمان باقی‌مانده: <span id="timeRemaining"></span></div>
+        <form id="quizForm">
+            <div class="mb-4">
+                <h2 class="section-header">سوالات تستی</h2>
+                <div class="question">
+                    @foreach (QuestionsViewModel question in ViewBag.Questions)
+                    {
+                        int q = @question.QuestionNumber;
+                        string name = "question" + q;
+                        <h5 name="@name">@question.QuestionNumber- @question.Questions</h5>
+                        int r = 1;
+                        @foreach (ResponsesViewModel response in ViewBag.Responses)
+                        {
+                            if (response.QuestionID == question.QuestionNumber)
+                            {
+                                string id = "q" + q + "o" + r;
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="@name" id="@id" value="@r">
+                                    <label class="form-check-label" for="@id" data-index="@r">@response.Questions</label>
+                                </div>
+                                r++;
+                            }
+                        }
+                    }
+                </div>
+            </div>
+
+           @*  <div class="mb-4">
+                <h2 class="section-header">سوالات تشریحی</h2>
+                <div class="question">
+                    <h5>۲. توضیحات خود را در مورد این سوال بنویسید:</h5>
+                    <textarea class="form-control" name="question2" id="question2" rows="4" placeholder="پاسخ خود را بنویسید"></textarea>
+                </div>
+            </div> *@
+
+            <button type="button" class="btn btn-primary" id="submitQuizButton" onclick="submitQuiz()">ثبت آزمون</button>
+        </form>
+
+        <div class="result-section mt-5">
+            <h3 class="text-success">آزمون با موفقیت ثبت شد!</h3>
+            <p>نتیجه سوال چهارگزینه‌ای: <span id="mcqResult"></span></p>
+        </div>
+    </div>
+    <div class="footer mt-4">
+        <p>© ۲۰۲۴ سامانه آزمون آنلاین</p>
+    </div>
+</div>

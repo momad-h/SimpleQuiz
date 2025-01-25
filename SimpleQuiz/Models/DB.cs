@@ -92,7 +92,7 @@ namespace SimpleQuiz
                 QuizInfo? quiz;
                 using (IDbConnection db = new SqlConnection(_connectionStr))
                 {
-                    quiz = db.Query<QuizInfo>("SELECT Quiz.ID, QuizName, QuizFarsiName, TypeName QuizType, NumberOfQuestions, QuizTime, REPLACE(REPLACE(NegativeScore,0,N'ندارد'),1,N'دارد') NegativeScore FROM Quiz JOIN QuizTypes ON QuizTypes.ID=QuizType WHERE Quiz.ID=@ID", new { ID = quizId }).SingleOrDefault();
+                    quiz = db.Query<QuizInfo>("SELECT Quiz.ID, QuizName, QuizFarsiName, TypeName QuizType, NumberOfQuestions, QuizTime, REPLACE(REPLACE(NegativeScore,0,N'ندارد'),1,N'دارد') NegativeScore,MinScoreToPass FROM Quiz JOIN QuizTypes ON QuizTypes.ID=QuizType WHERE Quiz.ID=@ID", new { ID = quizId }).SingleOrDefault();
                 }
 
                 return quiz;
@@ -110,7 +110,7 @@ namespace SimpleQuiz
                 List<QuizInfo>? quiz;
                 using (IDbConnection db = new SqlConnection(_connectionStr))
                 {
-                    quiz = db.Query<QuizInfo>("SELECT Quiz.ID, QuizName, QuizFarsiName, TypeName QuizType, NumberOfQuestions, QuizTime, REPLACE(REPLACE(NegativeScore,0,N'ندارد'),1,N'دارد') NegativeScore FROM Quiz JOIN QuizTypes ON QuizTypes.ID=QuizType").ToList();
+                    quiz = db.Query<QuizInfo>("SELECT Quiz.ID, QuizName, QuizFarsiName, TypeName QuizType, NumberOfQuestions, QuizTime, REPLACE(REPLACE(NegativeScore,0,N'ندارد'),1,N'دارد') NegativeScore,MinScoreToPass FROM Quiz JOIN QuizTypes ON QuizTypes.ID=QuizType").ToList();
                 }
 
                 return quiz;

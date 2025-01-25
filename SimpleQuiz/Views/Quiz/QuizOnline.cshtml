@@ -1,62 +1,187 @@
 ﻿@{
-    
     ViewData["Title"] = "آزمون";
+    Layout = "_MainLayout";
 }
 
-<div class="container mt-5">
-    <div class="header mb-4">
-        <h1>سامانه آزمون آنلاین</h1>
-    </div>
-    <div class="main-container">
-        <div id="userInfo" class="mb-4">
-            <p>نام: <span id="userFullName"></span></p>
-            <p>نام کاربری: <span id="userUsername"></span></p>
-            <a href="/Quiz/History" class="btn btn-secondary mt-3">مشاهده تاریخچه آزمون‌ها</a>
-        </div>
-        <div id="timer" class="alert alert-warning text-center mb-4">زمان باقی‌مانده: <span id="timeRemaining"></span></div>
-        <form id="quizForm">
-            <div class="mb-4">
-                <h2 class="section-header">سوالات تستی</h2>
-                <div class="question">
-                    @foreach (QuestionsViewModel question in ViewBag.Questions)
-                    {
-                        int q = @question.QuestionNumber;
-                        string name = "question" + q;
-                        <h5 name="@name">@question.QuestionNumber- @question.Questions</h5>
-                        int r = 1;
-                        @foreach (ResponsesViewModel response in ViewBag.Responses)
-                        {
-                            if (response.QuestionID == question.QuestionNumber)
-                            {
-                                string id = "q" + q + "o" + r;
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="@name" id="@id" value="@r">
-                                    <label class="form-check-label" for="@id" data-index="@r">@response.Questions</label>
-                                </div>
-                                r++;
-                            }
-                        }
-                    }
+<div class="col-lg-12" id="quiz-panel">
+    <div class="row">
+        <div class="col-xl-6 col-md-6">
+            <div class="card ribbone-card">
+                <div class="arrow-ribbone-left bg-secondary">اطلاعات آزمون</div>
+                <div class="card-body  p-6 row">
+                    <div class="card-body" style="padding:9px">
+                        <div class="table-responsive">
+                            <table class="table border text-nowrap text-md-nowrap table-bordered mb-0 text-center">
+                                <thead>
+                                    <tr>
+                                        <th class=" fw-bold"><i class="icon icon-menu text-secondary fa-2x me-2"></i>تعداد سوالات</th>
+                                        <th class=" fw-bold"><i class="icon icon-check text-primary fa-2x me-2"></i>نوع آزمون</th>
+                                        <th class=" fw-bold"><i class="icon icon-clock text-success fa-2x me-2"></i>زمان آزمون(دقیقه)</th>
+                                        <th class=" fw-bold"><i class="icon icon-shield text-danger fa-2x me-2"></i>نمره منفی</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>@ViewBag.QuizInfo.NumberOfQuestions</td>
+                                        <td>@ViewBag.QuizInfo.QuizType</td>
+                                        <td id="quiztime">@ViewBag.QuizInfo.QuizTime</td>
+                                        <td>@ViewBag.QuizInfo.NegativeScore</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-           @*  <div class="mb-4">
-                <h2 class="section-header">سوالات تشریحی</h2>
-                <div class="question">
-                    <h5>۲. توضیحات خود را در مورد این سوال بنویسید:</h5>
-                    <textarea class="form-control" name="question2" id="question2" rows="4" placeholder="پاسخ خود را بنویسید"></textarea>
+        </div>
+        <div class="col-xl-6 col-md-6">
+            <div class="card ribbone-card">
+                <div class="ribbone ribbone-top-left text-primary"><span class="bg-primary">زمان آزمون</span></div>
+                <div class="card-body  p-6">
+                    <div class="container">
+                        <section id="timer" dir="ltr">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 countdown-wrapper text-center mb20">
+                                    <div class="card-block">
+                                        <div id="countdown">
+                                            <div class="well">
+                                                <span id="hour" class="timer bg-success"></span>
+                                                <span id="min" class="timer bg-info"></span>
+                                                <span id="sec" class="timer bg-primary"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
                 </div>
-            </div> *@
-
-            <button type="button" class="btn btn-primary" id="submitQuizButton" onclick="submitQuiz()">ثبت آزمون</button>
-        </form>
-
-        <div class="result-section mt-5">
-            <h3 class="text-success">آزمون با موفقیت ثبت شد!</h3>
-            <p>نتیجه سوال چهارگزینه‌ای: <span id="mcqResult"></span></p>
+            </div>
         </div>
     </div>
-    <div class="footer mt-4">
-        <p>© ۲۰۲۴ سامانه آزمون آنلاین</p>
+    <div class="expanel expanel-secondary">
+        <div class="expanel-heading">
+            <h3 class="expanel-title">سوالات </h3>
+        </div>
+        <div class="expanel-body">
+            <div class="table-responsive">
+                <table class="table border text-nowrap text-md-nowrap mb-0" id="quiz">
+                    <tbody>
+                        @foreach (QuestionsViewModel question in ViewBag.Questions)
+                        {
+                            int q = @question.QuestionNumber;
+                            string name = "question" + q;
+                            <tr>
+                                <td name="@name">@question.QuestionNumber- @question.Questions</td>
+                            </tr>
+                            int r = 1;
+                            <tr>
+                                <td colspan="4">
+                                    <table class="table border text-nowrap text-md-nowrap  mb-0">
+                                        <tbody>
+                                            @foreach (ResponsesViewModel response in ViewBag.Responses)
+                                            {
+                                                if (response.QuestionID == question.QuestionNumber)
+                                                {
+                                                    string id = "q" + q + "o" + r;
+                                                    <tr>
+                                                        <td>
+                                                            <label class="custom-control custom-radio-md">
+                                                                <input type="radio" class="custom-control-input" name="@name" id="@id" value="@r">
+                                                                <span class="custom-control-label">@response.Questions</span>
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+                                                    r++;
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div style="padding:10px">
+            </div>
+            <div class="col mb-2">
+                <div class="btn-list">
+                    <button type="button" class="btn btn-primary mb-1" onclick="getCheckedOptions()">ثبت آزمون</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<div class="col-lg-12" id="result-panel">
+    <div class="row">
+        <div class="col-sm-9 col-xl-9 col-md-9 col-lg-9">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h6 class=""><span class="text-primary"><i class="fe fe-file-text mx-2 fs-20 text-primary-shadow"></i></span>نمره کل</h6>
+                    <h3 class="text-dark counter mt-0 mb-3 number-font" id="totalScore">3</h3>
+                    <div class="progress h-1 mt-0 mb-2">
+                        <div class="progress-bar progress-bar-striped bg-primary" style="width: 70%;" role="progressbar" id="scoreBar"></div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col text-center">
+                            <span class="text-muted">تعداد سوالات</span>
+                            <h4 class="fw-normal mt-2 mb-0 number-font1" id="totalQuestions">0</h4>
+                        </div>
+                        <div class="col text-center">
+                            <span class="text-muted">پاسخ داده</span>
+                            <h4 class="fw-normal mt-2 mb-0 number-font2" id="answeredQuestions">0</h4>
+                        </div>
+                        <div class="col text-center">
+                            <span class="text-muted">بدون پاسخ</span>
+                            <h4 class="fw-normal mt-2 mb-0 number-font3" id="unansweredQuestions">0</h4>
+                        </div>
+                        <div class="col text-center">
+                            <span class="text-muted">صحیح</span>
+                            <h4 class="fw-normal mt-2 mb-0 number-font3" id="correctAnswers">0</h4>
+                        </div>
+                        <div class="col text-center">
+                            <span class="text-muted">نادرست</span>
+                            <h4 class="fw-normal mt-2 mb-0 number-font3" id="incorrectAnswers">0</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fa fa-minus-circle text-danger fa-3x" id="quizResultIconFailed"></i>
+                    <i class="fa fa-check-circle text-success fa-3x" id="quizResultIconPass"></i>
+                    <h5 class="mt-4 mb-2" id="passStatus"></h5>
+                    <h2 class="mb-2 number-font" id="score"></h2>
+                    <p class="text-muted" id="quizMinScore"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="expanel expanel-success">
+        <div class="expanel-heading">
+            <h3 class="expanel-title">نتیجه آزمون</h3>
+        </div>
+        <div class="expanel-body">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table border text-nowrap text-md-nowrap mb-0">
+                        <thead>
+                            <tr class="table-light">
+                                <th>سوال</th>
+                                <th>پاسخ شما</th>
+                                <th>پاسخ صحیح</th>
+                            </tr>
+                        </thead>
+                        <tbody id="result">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" runat="server" id="minScoreToPass" value="@ViewBag.QuizInfo.MinScoreToPass" />

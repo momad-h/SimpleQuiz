@@ -8,5 +8,6 @@
         public int NumberOfQuestions { get; set; }
         public int QuizTime { get; set; }
         public string NegativeScore { get; set; }
+        public int MinScoreToPass { get; set; }
     }
 }

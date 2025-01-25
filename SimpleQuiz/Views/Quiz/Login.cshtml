@@ -1,21 +1,118 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "آزمون";
+    Layout = "_LoginLayout";
 }
+<div class="">
 
-    <div class="container mt-5">
-        <div class="main-container">
-            <h2 class="text-center">ورود به سامانه آزمون آنلاین</h2>
-            <form id="loginForm">
-                <div class="mb-3">
-                    <label for="username" class="form-label">نام کاربری:</label>
-                    <input type="text" class="form-control" id="username" required>
+    <!-- GLOABAL LOADER -->
+    <div id="global-loader">
+        <img src="~/bootstrap/assets/images/loader.svg" class="loader-img" alt="لودر">
+    </div>
+    <!-- /GLOABAL LOADER -->
+    <!-- PAGE -->
+    <div class="page">
+        <div class="">
+
+            <!-- CONTAINER OPEN -->
+            <div class="col col-login mx-auto mt-7">
+                <div class="text-center">
+                    <a href="index.html"><img src="~/bootstrap/assets/images/brand/logo-white.png" class="header-brand-img" alt="لوگو"></a>
                 </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">رمز عبور:</label>
-                    <input type="password" class="form-control" id="password" required>
+            </div>
+
+            <div class="container-login100">
+                <div class="wrap-login100 p-6">
+                    <form class="login100-form validate-form">
+                        <span class="login100-form-title pb-5">
+                            ورود
+                        </span>
+                        <div class="panel panel-primary">
+                            <div class="tab-menu-heading">
+                                <div class="tabs-menu1">
+                                    <!-- Tabs -->
+                                    <ul class="nav panel-tabs">
+                                        <li class="mx-0"><a href="#tab5" class="active" data-bs-toggle="tab">ایمیل</a></li>
+                                        <li class="mx-0"><a href="#tab6" data-bs-toggle="tab">موبایل</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="panel-body tabs-menu-body p-0 pt-5">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab5">
+                                        <div class="wrap-input100 validate-input input-group" data-bs-validate="ایمیل معتبر مورد نیاز است: ex@abc.xyz">
+                                            <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                                <i class="zmdi zmdi-email text-muted" aria-hidden="true"></i>
+                                            </a>
+                                            <input class="input100 border-start-0 form-control ms-0" type="email" placeholder="ایمیل" id="username">
+                                        </div>
+                                        <div class="wrap-input100 validate-input input-group" id="Password-toggle">
+                                            <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                                <i class="zmdi zmdi-eye text-muted" aria-hidden="true"></i>
+                                            </a>
+                                            <input class="input100 border-start-0 form-control ms-0" type="password" placeholder="رمز عبور" id="password">
+                                        </div>
+                                        <div class="text-end pt-4">
+                                            <p class="mb-0"><a href="forgot-password.html" class="text-primary ms-1">رمز عبور را فراموش کرده‌اید؟</a></p>
+                                        </div>
+                                        <div class="container-login100-form-btn" onclick="login()">
+                                            <button type="button" class="btn btn-primary w-100" onclick="login()">ورود</button>
+@* 
+                                            <a href="index.html" class="login100-form-btn btn-primary">
+                                                ورود
+                                            </a> *@
+                                        </div>
+                                        <div class="text-center pt-3">
+                                            <p class="text-dark mb-0">عضو نیستید؟<a href="register.html" class="text-primary ms-1">ثبت‌نام کنید</a></p>
+                                        </div>
+                                        <label class="login-social-icon"><span>ورود با شبکه‌های اجتماعی</span></label>
+                                        <div class="d-flex justify-content-center">
+                                            <a href="javascript:void(0)">
+                                                <div class="social-login me-4 text-center">
+                                                    <i class="fa fa-google"></i>
+                                                </div>
+                                            </a>
+                                            <a href="javascript:void(0)">
+                                                <div class="social-login me-4 text-center">
+                                                    <i class="fa fa-facebook"></i>
+                                                </div>
+                                            </a>
+                                            <a href="javascript:void(0)">
+                                                <div class="social-login text-center">
+                                                    <i class="fa fa-twitter"></i>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab6">
+                                        <div id="mobile-num" class="wrap-input100 validate-input input-group mb-4">
+                                            <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                                <span>+98</span>
+                                            </a>
+                                            <input class="input100 border-start-0 form-control ms-0" placeholder="شماره موبایل">
+                                        </div>
+                                        <div id="login-otp" class="justify-content-around mb-5">
+                                            <input class="form-control text-center w-15" id="txt1" maxlength="1">
+                                            <input class="form-control text-center w-15" id="txt2" maxlength="1">
+                                            <input class="form-control text-center w-15" id="txt3" maxlength="1">
+                                            <input class="form-control text-center w-15" id="txt4" maxlength="1">
+                                        </div>
+                                        <span>توجه: برای تولید کد OTP با شماره موبایل ثبت‌شده وارد شوید.</span>
+                                        <div class="container-login100-form-btn ">
+                                            <a href="javascript:void(0)" class="login100-form-btn btn-primary" id="generate-otp">
+                                                ادامه
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
                 </div>
-                <button type="button" class="btn btn-primary w-100" onclick="login()">ورود</button>
-            </form>
-            <p class="text-center mt-3">عضو نیستید؟ <a href="signup.html">ثبت‌نام کنید</a></p>
+            </div>
+            <!-- CONTAINER CLOSED -->
         </div>
     </div>
+    <!-- End PAGE -->
+
+</div>

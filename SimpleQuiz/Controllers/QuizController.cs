@@ -13,7 +13,7 @@ namespace SimpleQuiz.Controllers
             _db = db;
             _tokenService = tokenService;
         }
-        public IActionResult Login2()
+        public IActionResult Login()
         {
             return View();
         }
@@ -25,7 +25,7 @@ namespace SimpleQuiz.Controllers
         {
             ViewBag.Questions = _db.GetQuestions();
             ViewBag.Responses = _db.GetResponses();
-            ViewBag.QuizInfo=_db.GetQuizInfo(1);
+            ViewBag.QuizInfo = _db.GetQuizInfo(1);
             return View();
         }
         public IActionResult QuizOnline(string token)
@@ -34,10 +34,11 @@ namespace SimpleQuiz.Controllers
             {
                 if (!_tokenService.ValidateToken(token, "QuizOnline"))
                 {
-                    return RedirectToAction("Login","Quiz"); // یا صفحه خطا
+                    return RedirectToAction("Login", "Quiz"); // یا صفحه خطا
                 }
                 ViewBag.Questions = _db.GetQuestions();
                 ViewBag.Responses = _db.GetResponses();
+                ViewBag.QuizInfo = _db.GetQuizInfo(1);
                 return View();
             }
             catch (Exception)
@@ -58,10 +59,10 @@ namespace SimpleQuiz.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        public IActionResult GenerateSecureLink()
+        public IActionResult GenerateSecureLink(string action, string controller, string page)
         {
-            var token = _tokenService.CreateToken("QuizOnline");
-            var secureLink = Url.Action("QuizOnline", "Quiz", new { token = token }, Request.Scheme);
+            var token = _tokenService.CreateToken(page);
+            var secureLink = Url.Action(action, controller, new { token = token }, Request.Scheme);
             return Ok(secureLink);
         }
     }
