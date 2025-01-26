@@ -17,8 +17,8 @@ async function login() {
         // هدایت به صفحه آزمون
         //window.location.href = "/Quiz/QuizOnline";
 
-        window.location.href = await generateLinkApi("Index", "Home", "Index");   
-        
+        window.location.href = await generateLinkApi("Index", "Home", "Index");
+
     } else {
         //alert("نام کاربری یا رمز عبور اشتباه است.");
         customAlert("خطا", "نام کاربری یا رمز عبور اشتباه است.", "error", false, "بستن");
@@ -28,7 +28,7 @@ async function login() {
 async function GetPage(action, controller, page) {
     window.location.href = await generateLinkApi(action, controller, page);
 }
-async function generateLinkApi(action,controller,page) {
+async function generateLinkApi(action, controller, page) {
     const apiUrl = "/qApi/QuizApi/GenerateSecureLink?action=" + action + "&controller=" + controller + "&page=" + page; // آدرس کنترلر یا API سمت سرور
     try {
         const response = await fetch(apiUrl, {
@@ -51,7 +51,6 @@ async function generateLinkApi(action,controller,page) {
         throw error; // برای مدیریت خطا در فراخوانی تابع
     }
 }
-
 // کنترل ثبت‌نام
 async function signup() {
     const fullName = document.getElementById("fullName").value;
@@ -70,7 +69,7 @@ async function signup() {
             Mobile: signupMobile
         };
         var userSignupRes = await signupApi(userSignup);
-        if (userSignupRes===1) {
+        if (userSignupRes === 1) {
             alert("ثبت‌نام با موفقیت انجام شد! اکنون وارد شوید.");
             window.location.href = "/Quiz/Login";
         }
@@ -212,8 +211,6 @@ function getCheckedOptions() {
     console.log(JSON.stringify({ answers: selectedOptions }));
     sendResultsToServer(selectedOptions, 1);
 }
-
-
 function submitQuiz() {
     // بررسی زمان باقی‌مانده
     const remainingTime = parseInt(localStorage.getItem("remainingTime"), 10);
@@ -282,7 +279,7 @@ function sendResultsToServer(results, userInfo) {
             // نمایش نتایج بر اساس پاسخ API
             addRowsToTable(data.results);
             //showResults(data.results, userInfo);
-            setQuizResult(data.results,1);
+            setQuizResult(data.results, 1);
         })
         .catch(error => {
             console.error("خطا در ارسال به سرور:", error);
@@ -359,7 +356,7 @@ function addRowsToTable(dataArray) {
     document.getElementById('result-panel').style.display = 'block';
 }
 function setQuizResult(results, isNegative) {
-    const minScoreToPass = document.getElementById('minScoreToPass').value*1;
+    const minScoreToPass = document.getElementById('minScoreToPass').value * 1;
     const totalQuestions = results.length;
     const answeredQuestions = results.filter(result => result.answer).length;
     const unansweredQuestions = totalQuestions - answeredQuestions;
@@ -385,7 +382,7 @@ function setQuizResult(results, isNegative) {
     document.getElementById('score').innerText = score + '%';
     document.getElementById('passStatus').innerText = passStatus;
     document.getElementById('scoreBar').style.width = score + '%';
-    document.getElementById('quizMinScore').innerText = 'حد مجاز نمره قبولی - ' + minScoreToPass +'%';
+    document.getElementById('quizMinScore').innerText = 'حد مجاز نمره قبولی - ' + minScoreToPass + '%';
 
 
     if (score >= minScoreToPass) {
@@ -539,7 +536,7 @@ function showResults(results, userInfo) {
         alert("باز کردن پاپ‌آپ ممکن نیست. لطفاً پاپ‌آپ را فعال کنید.");
     }
 }
-function customAlert(title, text, type, showCancelButton, confirmButtonText, cancelButtonText ="") {
+function customAlert(title, text, type, showCancelButton, confirmButtonText, cancelButtonText = "") {
     $('body').removeClass('timer-alert');
     swal({
         title: title,
@@ -550,58 +547,41 @@ function customAlert(title, text, type, showCancelButton, confirmButtonText, can
         cancelButtonText: cancelButtonText
     });
 }
-const quizTime = document.getElementById('quiztime').textContent * 1;
-
 document.addEventListener("DOMContentLoaded", function () {
-    //setInterval(function time() {
-    //    var d = new Date();
-    //    var hours = 24 - d.getHours();
-    //    var min = d.getMinutes();
-    //    if ((min + '').length == 1) {
-    //        min = '0' + min;
-    //    }
-    //    var sec = 60 - d.getSeconds();
-    //    if ((sec + '').length == 1) {
-    //        sec = '0' + sec;
-    //    }
-    //    document.querySelector('#countdown #hour').innerHTML = "00";
-    //    document.querySelector('#countdown #min').innerHTML = min;
-    //    document.querySelector('#countdown #sec').innerHTML = sec;
-    //}, 1000);
-    const targetTime = new Date();
-    targetTime.setMinutes(targetTime.getMinutes() + quizTime); // ۳۰ دقیقه بعد
+    const quizTime = document.getElementById('quiztime');
+    if (quizTime) {
+        const targetTime = new Date();
+        targetTime.setMinutes(targetTime.getMinutes() + (quizTime.textContent * 1)); // ۳۰ دقیقه بعد
 
-    setInterval(function () {
-        const now = new Date(); // زمان فعلی
-        const difference = targetTime - now; // تفاوت زمان هدف و زمان فعلی به میلی‌ثانیه
+        setInterval(function () {
+            const now = new Date(); // زمان فعلی
+            const difference = targetTime - now; // تفاوت زمان هدف و زمان فعلی به میلی‌ثانیه
 
-        // اگر زمان به پایان رسیده باشد، تایمر را متوقف می‌کنیم
-        if (difference <= 0) {
-            clearInterval(this);
-            document.querySelector('#countdown #hour').innerHTML = "00";
-            document.querySelector('#countdown #min').innerHTML = "00";
-            document.querySelector('#countdown #sec').innerHTML = "00";
-            return;
-        }
+            // اگر زمان به پایان رسیده باشد، تایمر را متوقف می‌کنیم
+            if (difference <= 0) {
+                clearInterval(this);
+                document.querySelector('#countdown #hour').innerHTML = "00";
+                document.querySelector('#countdown #min').innerHTML = "00";
+                document.querySelector('#countdown #sec').innerHTML = "00";
+                return;
+            }
 
-        // محاسبه ساعت، دقیقه و ثانیه باقی‌مانده
-        const hours = Math.floor(difference / (1000 * 60 * 60));
-        const min = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-        const sec = Math.floor((difference % (1000 * 60)) / 1000);
+            // محاسبه ساعت، دقیقه و ثانیه باقی‌مانده
+            const hours = Math.floor(difference / (1000 * 60 * 60));
+            const min = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const sec = Math.floor((difference % (1000 * 60)) / 1000);
 
-        // نمایش زمان به صورت دو رقمی
-        document.querySelector('#countdown #hour').innerHTML = String(hours).padStart(2, '0');
-        document.querySelector('#countdown #min').innerHTML = String(min).padStart(2, '0');
-        document.querySelector('#countdown #sec').innerHTML = String(sec).padStart(2, '0');
-    }, 1000);
+            // نمایش زمان به صورت دو رقمی
+            document.querySelector('#countdown #hour').innerHTML = String(hours).padStart(2, '0');
+            document.querySelector('#countdown #min').innerHTML = String(min).padStart(2, '0');
+            document.querySelector('#countdown #sec').innerHTML = String(sec).padStart(2, '0');
+        }, 1000);
+    }
 });
 // مقداردهی اولیه در صفحه آزمون
 document.addEventListener("DOMContentLoaded", () => {
-    loadUserInfo();
-    console.log(window.location.pathname);
-    if (window.location.pathname === "/") {
-
-        console.log(1);
+    if (window.location.pathname !== "/Quiz/Login") {
+        loadUserInfo();
     }
 });
 document.addEventListener("DOMContentLoaded", () => {
