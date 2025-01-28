@@ -8,11 +8,13 @@ namespace SimpleQuiz.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly TokenService _tokenService;
+        private readonly DB _db;
 
-        public HomeController(ILogger<HomeController> logger, TokenService tokenService)
+        public HomeController(ILogger<HomeController> logger, TokenService tokenService, DB db)
         {
             _logger = logger;
             _tokenService = tokenService;
+            _db = db;
         }
 
         public IActionResult Index(string token)
@@ -21,6 +23,7 @@ namespace SimpleQuiz.Controllers
             {
                 return RedirectToAction("Login", "Quiz"); // یا صفحه خطا
             }
+            ViewBag.QuizInfoAll = _db.GetQuizInfo();
             return View();
         }
 

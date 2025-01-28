@@ -12,6 +12,7 @@ namespace SimpleQuiz.Controllers
         {
             _db = db;
             _tokenService = tokenService;
+            ViewBag.QuizInfoAll = _db.GetQuizInfo();
         }
         public IActionResult Login()
         {
@@ -39,6 +40,7 @@ namespace SimpleQuiz.Controllers
                 ViewBag.Questions = _db.GetQuestions();
                 ViewBag.Responses = _db.GetResponses();
                 ViewBag.QuizInfo = _db.GetQuizInfo(1);
+                
                 return View();
             }
             catch (Exception)

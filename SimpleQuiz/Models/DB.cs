@@ -13,6 +13,7 @@ namespace SimpleQuiz
         {
             _connectionStr = configuration.GetConnectionString("DefaultConnection");
         }
+
         public List<QuestionsViewModel> GetQuestions()
         {
             List<QuestionsViewModel> questions;
@@ -104,6 +105,24 @@ namespace SimpleQuiz
             }
         }
         public List<QuizInfo> GetQuizInfo()
+        {
+            try
+            {
+                List<QuizInfo>? quiz;
+                using (IDbConnection db = new SqlConnection(_connectionStr))
+                {
+                    quiz = db.Query<QuizInfo>("SELECT Quiz.ID, QuizName, QuizFarsiName, TypeName QuizType, NumberOfQuestions, QuizTime, REPLACE(REPLACE(NegativeScore,0,N'ندارد'),1,N'دارد') NegativeScore,MinScoreToPass FROM Quiz JOIN QuizTypes ON QuizTypes.ID=QuizType").ToList();
+                }
+
+                return quiz;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public async Task<List<QuizInfo>> AsyncGetQuizInfo()
         {
             try
             {
