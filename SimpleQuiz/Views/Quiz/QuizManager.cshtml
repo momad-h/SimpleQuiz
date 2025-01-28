@@ -61,9 +61,82 @@
                     </div>
                     <div class="expanel-body">
                         <div class="row">
-
+                            <div class="card-header">
+                                <h3 class="card-title">ویرایش آزمون</h3>
+                            </div>
+                            <div class="form-group select2-lg">
+                                <label class="form-label">انتخاب آزمون</label>
+                                <select name="country" class="form-control form-select form-select-lg select2" data-bs-placeholder="--انتخاب--">
+                                    <option value="br">Brazil</option>
+                                    <option value="cz">Czech Republic</option>
+                                    <option value="de">Germany</option>
+                                    <option value="pl" selected>Poland</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="row">
+                            <div class="card-header">
+                                <h3 class="card-title">ایجاد آزمون</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">نام فارسی آزمون <span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="نام فارسی آزمون">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">نام انگلیسی آزمون <span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="نام انگلیسی آزمون">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">توضیحات آزمون <span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="توضیحات آزمون(اختیاری)">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">نوع آزمون <span class="text-red">*</span></label>
+                                            <select class="form-control form-select select2" data-bs-placeholder="Select">
+                                                <option label="Select">--انتخاب--</option>
+                                                <option value="1">تشریحی</option>
+                                                <option value="2">چهار گزینه ای</option>
+                                                <option value="3">ترکیبی</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">حداقل نمره <span class="text-red">*</span></label>
+                                            <input type="number" class="form-control" placeholder="حداقل نمره کسب شده برای تایید در آزمون">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">تعداد سوالات <span class="text-red">*</span></label>
+                                            <input type="number" class="form-control" placeholder="تعداد سوالات">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">زمان آزمون <span class="text-red">*</span></label>
+                                            <input type="number" class="form-control" placeholder="زمان آزمون(دقیقه)">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4 form-group" style="padding: 42px">
+                                        <label class="custom-switch form-switch mb-0">
+                                            <input type="checkbox" name="custom-switch-radio" class="custom-switch-input">
+                                            <span class="custom-switch-indicator custom-switch-indicator-md"></span>
+                                            <span class="custom-switch-description">نمره منفی</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
