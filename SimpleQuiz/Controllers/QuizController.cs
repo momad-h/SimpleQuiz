@@ -67,5 +67,10 @@ namespace SimpleQuiz.Controllers
             var secureLink = Url.Action(action, controller, new { token = token }, Request.Scheme);
             return Ok(secureLink);
         }
+        public IActionResult QuizManager()
+        {
+            return View();
+        }
+        
     }
 }
