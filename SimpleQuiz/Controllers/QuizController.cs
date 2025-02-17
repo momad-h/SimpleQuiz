@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 
 namespace SimpleQuiz.Controllers
 {
+    [Authorize(Roles = "User")]
     public class QuizController : Controller
     {
         private readonly DB _db;

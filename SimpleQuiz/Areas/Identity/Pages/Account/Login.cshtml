@@ -1,4 +1,89 @@
-﻿@{
+﻿@page
+@model LoginModel
+
+@* @{
+    ViewData["Title"] = "Log in";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-md-4">
+        <section>
+            <form id="account" method="post">
+                <h2>Use a local account to log in.</h2>
+                <hr />
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="UserName" />
+                    <label asp-for="Input.UserName" class="form-label">UserName</label>
+                    <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                    <label asp-for="Input.Password" class="form-label">Password</label>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="checkbox mb-3">
+                    <label asp-for="Input.RememberMe" class="form-label">
+                        <input class="form-check-input" asp-for="Input.RememberMe" />
+                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                    </label>
+                </div>
+                <div>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                </div>
+                <div>
+                    <p>
+                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                    </p>
+                    <p>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                    </p>
+                    <p>
+                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+                    </p>
+                </div>
+            </form>
+        </section>
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <h3>Use another service to log in.</h3>
+            <hr />
+            @{
+                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                {
+                    <div>
+                        <p>
+                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
+                            about setting up this ASP.NET application to support logging in via external services</a>.
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                        <div>
+                            <p>
+                                @foreach (var provider in Model.ExternalLogins!)
+                                {
+                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                }
+                            </p>
+                        </div>
+                    </form>
+                }
+            }
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+ *@
+
+@{
     ViewData["Title"] = "آزمون";
     Layout = "_LoginLayout";
 }
@@ -21,7 +106,7 @@
 
             <div class="container-login100">
                 <div class="wrap-login100 p-6">
-                    <form class="login100-form validate-form" id="loginForm">
+                    <form class="login100-form validate-form" id="account" method="post">
                         <span class="login100-form-title pb-5">
                             ورود
                         </span>
@@ -42,26 +127,33 @@
                                             <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
                                                 <i class="zmdi zmdi-email text-muted" aria-hidden="true"></i>
                                             </a>
-                                            <input class="input100 border-start-0 form-control ms-0" type="email" placeholder="ایمیل" id="username">
+@*                                             <input class="input100 border-start-0 form-control ms-0" type="email" placeholder="ایمیل" id="username">
+ *@                                            <input asp-for="Input.UserName" class="input100 border-start-0 form-control ms-0" autocomplete="username" aria-required="true" placeholder="UserName" />
+
                                         </div>
                                         <div class="wrap-input100 validate-input input-group" id="Password-toggle">
                                             <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
                                                 <i class="zmdi zmdi-eye text-muted" aria-hidden="true"></i>
                                             </a>
-                                            <input class="input100 border-start-0 form-control ms-0" type="password" placeholder="رمز عبور" id="password">
+@*                                             <input class="input100 border-start-0 form-control ms-0" type="password" placeholder="رمز عبور" id="password">
+ *@                                            <input asp-for="Input.Password" class="input100 border-start-0 form-control ms-0" autocomplete="current-password" aria-required="true" placeholder="password" />
+
                                         </div>
                                         <div class="text-end pt-4">
-                                            <p class="mb-0"><a href="forgot-password.html" class="text-primary ms-1">رمز عبور را فراموش کرده‌اید؟</a></p>
+                                            <p class="mb-0"><a id="forgot-password" asp-page="./ForgotPassword">رمز عبور را فراموش کرده‌اید؟</a></p>
                                         </div>
                                         <div class="container-login100-form-btn" onclick="login()">
-                                            <button type="button" class="btn btn-primary w-100" onclick="login()">ورود</button>
-@* 
+@*                                             <button type="button" class="btn btn-primary w-100" onclick="login()">ورود</button>
+ *@                                            <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">ورود</button>
+                                            @* 
                                             <a href="index.html" class="login100-form-btn btn-primary">
                                                 ورود
                                             </a> *@
                                         </div>
                                         <div class="text-center pt-3">
-                                            <p class="text-dark mb-0">عضو نیستید؟<a href="register.html" class="text-primary ms-1">ثبت‌نام کنید</a></p>
+                                            <p class="text-dark mb-0">عضو نیستید؟
+                                                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">ثبت‌نام کنید</a>
+                                            </p>
                                         </div>
                                         <label class="login-social-icon"><span>ورود با شبکه‌های اجتماعی</span></label>
                                         <div class="d-flex justify-content-center">

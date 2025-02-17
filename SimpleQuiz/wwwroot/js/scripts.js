@@ -1,6 +1,6 @@
 // کنترل لاگین
 async function login() {
-    debugger;
+
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     const userInfos = {
@@ -110,15 +110,15 @@ async function signupApi(userInfo) {
 }
 // مقداردهی اطلاعات کاربر در صفحه آزمون
 function loadUserInfo() {
-    debugger;
+
     const fullName = sessionStorage.getItem("fullName");
     const username = sessionStorage.getItem("username");
 
-    if (!fullName || !username) {
-        //alert("لطفاً ابتدا وارد شوید.");
-        window.location.href = "/Quiz/Login";
-        return;
-    }
+    //if (!fullName || !username) {
+    //    //alert("لطفاً ابتدا وارد شوید.");
+    //    window.location.href = "/Quiz/Login";
+    //    return;
+    //}
 
     document.getElementById("username").textContent = username;
     document.getElementById("fullName").textContent = fullName;

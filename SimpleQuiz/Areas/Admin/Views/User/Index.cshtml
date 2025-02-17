@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using SimpleQuiz
+@model List<ApplicationUser>
+
+<h2>مدیریت کاربران</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>نام کاربری</th>
+            <th>ایمیل</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@user.Id">ویرایش</a> |
+                    <a asp-action="Delete" asp-route-id="@user.Id">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-primary">ایجاد کاربر جدید</a>
