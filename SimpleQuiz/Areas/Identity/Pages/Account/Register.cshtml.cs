@@ -127,7 +127,9 @@ namespace SimpleQuiz.Areas.Identity.Pages.Account
                     UserName = Input.UserName,
                     Email = Input.Email,
                     FullName = Input.FullName,
-                    PhoneNumber = Input.PhoneNumber
+                    PhoneNumber = Input.PhoneNumber,
+                    BirthDay=DateTime.Now,
+                    Gender=true
                 };
 
                 var emailExists = await _userManager.FindByEmailAsync(Input.Email);
@@ -168,6 +170,8 @@ namespace SimpleQuiz.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                    await _userManager.AddToRoleAsync(user, "User");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

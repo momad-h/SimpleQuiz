@@ -2,29 +2,133 @@
 @using SimpleQuiz
 @model List<ApplicationUser>
 
-<h2>مدیریت کاربران</h2>
+@{
+    ViewData["Title"] = "مدیریت کاربران";
+    Layout = "_MainLayout";
+}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>نام کاربری</th>
-            <th>ایمیل</th>
-            <th>عملیات</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>@user.UserName</td>
-                <td>@user.Email</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@user.Id">ویرایش</a> |
-                    <a asp-action="Delete" asp-route-id="@user.Id">حذف</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<!-- CONTAINER -->
+<div class="main-container container-fluid">
+    <div class="row row-cards">
+        <div class="col-lg-12 col-xl-12">
+            <div class="input-group mb-5">
+                <input type="text" class="form-control" placeholder="Search">
+                <div class="input-group-text btn btn-primary">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header border-bottom-0">
+                    <h2 class="card-title">1 - 10 از @Model.Count کاربر</h2>
+                    <div class="page-options ms-auto">
+                        <select class="form-control select2 w-100">
+                            <option value="asc">Latest</option>
+                            <option value="desc">Oldest</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="e-table px-5 pb-5">
+                    <div class="table-responsive table-lg">
+                        <table class="table border-top table-bordered mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">
 
-<a asp-action="Create" class="btn btn-primary">ایجاد کاربر جدید</a>
+                                    </th>
+                                    <th class="text-center">Photo</th>
+                                    <th>نام کاربری</th>
+                                    <th>نام و نام خانوادگی</th>
+                                    <th>ایمیل</th>
+                                    <th>شماره موبایل</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var user in Model){
+                                    <tr>
+                                        <td class="align-middle text-center">
+                                            <div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">
+                                                <input class="custom-control-input" id="item-1" type="checkbox"> <label class="custom-control-label" for="item-1"></label>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle text-center"><img alt="image" class="avatar avatar-md br-7" src="/bootstrap/assets/images/users/22.jpg"></td>
+                                        <td class="text-nowrap align-middle">@user.UserName</td>
+                                        <td class="text-nowrap align-middle">@user.FullName</td>
+                                        <td class="text-nowrap align-middle">@user.Email</td>
+                                        <td class="text-nowrap align-middle">@user.PhoneNumber</td>
+
+                                        <td class="text-center align-middle">
+                                            <div class="btn-group align-top">
+                                                <button class="btn btn-sm btn-primary badge" type="button"><i class="fa fa-trash"></i></button><a class="btn btn-primary" href="@Url.Action("Edit", "User", new { id = user.Id })">ویرایش</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-5">
+                <ul class="pagination float-end">
+                    <li class="page-item page-prev disabled">
+                        <a class="page-link" href="javascript:void(0)" tabindex="-1">Prev</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0)">5</a></li>
+                    <li class="page-item page-next">
+                        <a class="page-link" href="javascript:void(0)">Next</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- COL-END -->
+    </div>
+    <!-- ROW CLOSED -->
+</div>
+<!-- CONTAINER CLOSED -->
+<!-- Inout modal -->
+<div class="modal fade" id="input-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">ویرایش کاربر کد 1</h6>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="fullname" class="col-form-label">نام و نام خانوادگی :</label>
+                        <input type="text" class="form-control" id="fullname">
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="col-form-label">نام کاربری :</label>
+                        <input class="form-control" id="username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="col-form-label">ایمیل :</label>
+                        <input type="email" class="form-control" id="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="mobile" class="col-form-label">موبایل :</label>
+                        <input class="form-control" id="mobile">
+                    </div>
+                    <div class="mb-3">
+                        <label for="gender" class="col-form-label">جنسیت :</label>
+                        <input type="text" class="form-control" id="gender">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="button">ذخیره</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">انصراف</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Datepicker modal -->

@@ -930,7 +930,7 @@
         $('#slide-right').removeClass('d-none');
         $("html[lang=en]").attr("dir", "rtl");
         $('body').removeClass('ltr');
-        $("head link#style").attr("href", $(this));
+        //$("head link#style").attr("href", $(this));
         (document.getElementById("style").setAttribute("href", "/bootstrap/assets/plugins/bootstrap/css/bootstrap.rtl.min.css"));
         var carousel = $('.owl-carousel');
         $.each(carousel, function (index, element) {

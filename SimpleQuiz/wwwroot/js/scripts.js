@@ -1,29 +1,29 @@
 // کنترل لاگین
-async function login() {
+//async function login() {
 
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-    const userInfos = {
-        UserName: username,
-        Password: password
-    };
-    const userInfo = await loginApi(userInfos);
-    // فرض: شبیه‌سازی درخواست API
-    if (username.toLowerCase() === userInfo.userName.toLowerCase() && password === userInfo.password) {
+//    const username = document.getElementById("username").value;
+//    const password = document.getElementById("password").value;
+//    const userInfos = {
+//        UserName: username,
+//        Password: password
+//    };
+//    const userInfo = await loginApi(userInfos);
+//    // فرض: شبیه‌سازی درخواست API
+//    if (username.toLowerCase() === userInfo.userName.toLowerCase() && password === userInfo.password) {
 
-        // ذخیره اطلاعات کاربر
-        sessionStorage.setItem("fullName", userInfo.name);
-        sessionStorage.setItem("username", userInfo.userName);
-        // هدایت به صفحه آزمون
-        //window.location.href = "/Quiz/QuizOnline";
+//        // ذخیره اطلاعات کاربر
+//        sessionStorage.setItem("fullName", userInfo.name);
+//        sessionStorage.setItem("username", userInfo.userName);
+//        // هدایت به صفحه آزمون
+//        //window.location.href = "/Quiz/QuizOnline";
 
-        window.location.href = await generateLinkApi("Index", "Home", "Index");
+//        window.location.href = await generateLinkApi("Index", "Home", "Index");
 
-    } else {
-        //alert("نام کاربری یا رمز عبور اشتباه است.");
-        customAlert("خطا", "نام کاربری یا رمز عبور اشتباه است.", "error", false, "بستن");
-    }
-}
+//    } else {
+//        //alert("نام کاربری یا رمز عبور اشتباه است.");
+//        customAlert("خطا", "نام کاربری یا رمز عبور اشتباه است.", "error", false, "بستن");
+//    }
+//}
 
 async function GetPage(action, controller, page) {
     window.location.href = await generateLinkApi(action, controller, page);
@@ -52,62 +52,62 @@ async function generateLinkApi(action, controller, page) {
     }
 }
 // کنترل ثبت‌نام
-async function signup() {
-    const fullName = document.getElementById("fullName").value;
-    const signupUsername = document.getElementById("signupUsername").value;
-    const signupPassword = document.getElementById("signupPassword").value;
-    const signupRepeatPassword = document.getElementById("signupRepeatPassword").value;
-    const signupEmail = document.getElementById("signupEmail").value;
-    const signupMobile = document.getElementById("signupMobile").value;
+//async function signup() {
+//    const fullName = document.getElementById("fullName").value;
+//    const signupUsername = document.getElementById("signupUsername").value;
+//    const signupPassword = document.getElementById("signupPassword").value;
+//    const signupRepeatPassword = document.getElementById("signupRepeatPassword").value;
+//    const signupEmail = document.getElementById("signupEmail").value;
+//    const signupMobile = document.getElementById("signupMobile").value;
 
-    if (signupPassword === signupRepeatPassword) {
-        const userSignup = {
-            Name: fullName,
-            UserName: signupUsername,
-            Password: signupPassword,
-            Email: signupEmail,
-            Mobile: signupMobile
-        };
-        var userSignupRes = await signupApi(userSignup);
-        if (userSignupRes === 1) {
-            alert("ثبت‌نام با موفقیت انجام شد! اکنون وارد شوید.");
-            window.location.href = "/Quiz/Login";
-        }
-        else if (userSignupRes === -1) {
-            alert("نام کاربری تکراری است");
-        }
-        else {
-            alert("خطا در ثبت نام");
-        }
-    }
-    else {
-        alert("خطا");
-    }
-}
-async function signupApi(userInfo) {
-    const apiUrl = "/qApi/QuizApi/Signup"; // آدرس کنترلر یا API سمت سرور
-    try {
-        const response = await fetch(apiUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userInfo)
-        });
+//    if (signupPassword === signupRepeatPassword) {
+//        const userSignup = {
+//            Name: fullName,
+//            UserName: signupUsername,
+//            Password: signupPassword,
+//            Email: signupEmail,
+//            Mobile: signupMobile
+//        };
+//        var userSignupRes = await signupApi(userSignup);
+//        if (userSignupRes === 1) {
+//            alert("ثبت‌نام با موفقیت انجام شد! اکنون وارد شوید.");
+//            window.location.href = "/Quiz/Login";
+//        }
+//        else if (userSignupRes === -1) {
+//            alert("نام کاربری تکراری است");
+//        }
+//        else {
+//            alert("خطا در ثبت نام");
+//        }
+//    }
+//    else {
+//        alert("خطا");
+//    }
+//}
+//async function signupApi(userInfo) {
+//    const apiUrl = "/qApi/QuizApi/Signup"; // آدرس کنترلر یا API سمت سرور
+//    try {
+//        const response = await fetch(apiUrl, {
+//            method: "POST",
+//            headers: {
+//                "Content-Type": "application/json",
+//            },
+//            body: JSON.stringify(userInfo)
+//        });
 
-        if (!response.ok) {
-            throw new Error("ارسال به سرور با خطا مواجه شد.");
-        }
+//        if (!response.ok) {
+//            throw new Error("ارسال به سرور با خطا مواجه شد.");
+//        }
 
-        const data = await response.json(); // پاسخ JSON از سرور
-        console.log("پاسخ از سرور:", data);
-        return data; // بازگرداندن داده
-    } catch (error) {
-        console.error("خطا در ارسال به سرور:", error);
-        alert("خطا در ارسال پاسخ‌ها به سرور.");
-        throw error; // برای مدیریت خطا در فراخوانی تابع
-    }
-}
+//        const data = await response.json(); // پاسخ JSON از سرور
+//        console.log("پاسخ از سرور:", data);
+//        return data; // بازگرداندن داده
+//    } catch (error) {
+//        console.error("خطا در ارسال به سرور:", error);
+//        alert("خطا در ارسال پاسخ‌ها به سرور.");
+//        throw error; // برای مدیریت خطا در فراخوانی تابع
+//    }
+//}
 // مقداردهی اطلاعات کاربر در صفحه آزمون
 function loadUserInfo() {
 

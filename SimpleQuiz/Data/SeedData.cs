@@ -10,7 +10,7 @@ namespace SimpleQuiz
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            string[] roleNames = { "Admin", "User" };
+            string[] roleNames = { "Admin", "User","Manager" };
             foreach (var roleName in roleNames)
             {
                 //var roleExist = await roleManager.RoleExistsAsync(roleName);
