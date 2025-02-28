@@ -60,6 +60,7 @@ namespace SimpleQuiz.Areas.Admin.Controllers
                 var role=roles.FirstOrDefault();
                 ViewBag.Role = role;
                 ViewBag.Roles = _db.RoleList();
+                ViewBag.Token=await _userManager.GeneratePasswordResetTokenAsync(user);
                 DateTime date = DateTime.ParseExact(user.BirthDay.ToString(), "M/d/yyyy h:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture);
                 var seperateBirthDay = new
                 {

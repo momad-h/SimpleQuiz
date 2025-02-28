@@ -2,30 +2,11 @@
 @using SimpleQuiz
 @model ApplicationUser
 
-@* <h2>ویرایش کاربر</h2>
-
-<form asp-action="Edit">
-    <input type="hidden" asp-for="Id" />
-    <div class="form-group">
-        <label asp-for="UserName" class="control-label"></label>
-        <input asp-for="UserName" class="form-control" />
-        <span asp-validation-for="UserName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Email" class="control-label"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="ذخیره" class="btn btn-primary" />
-    </div>
-</form>
-
-<a asp-action="Index">بازگشت به لیست</a> *@
 @{
 	ViewData["Title"] = "ویرایش کاربر";
 	Layout = "_MainLayout";
 }
+
 <div class="main-container container-fluid">
 	<div class="row">
 		<div class="col-xl-4">
@@ -43,6 +24,24 @@
 								<h5 class="mb-1 text-dark fw-semibold">@Model.UserName</h5>
 							</a>
 						</div>
+					</div>
+					<div>
+						<form id="setPasswordForm">
+							<input for="Code" type="hidden" id="Code" name="Code" value="@ViewBag.Token" />
+							<div>
+								<label for="Email">Email</label>
+								<input type="Email" id="Email" name="Email" value="@Model.Email"/>
+							</div>
+							<div>
+								<label for="Password">New Password</label>
+								<input type="password" id="Password" name="Password" />
+							</div>
+							<div>
+								<label for="ConfirmPassword">Confirm Password</label>
+								<input type="password" id="ConfirmPassword" name="ConfirmPassword" />
+							</div>
+							<button type="submit">Set Password</button>
+						</form>
 					</div>
 					<div class="form-group">
 						<label class="form-label">Current Password</label>
