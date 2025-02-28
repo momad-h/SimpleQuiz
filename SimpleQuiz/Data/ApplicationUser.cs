@@ -10,4 +10,8 @@ namespace SimpleQuiz
         public DateTime BirthDay { get; set; }
         public bool Gender { get; set; }
     }
+    public class ApplicationUserByRole : ApplicationUser
+    {
+        public int RoleId { get; set; }
+    }
 }

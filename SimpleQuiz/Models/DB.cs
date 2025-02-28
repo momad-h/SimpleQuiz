@@ -198,5 +198,37 @@ namespace SimpleQuiz
                 throw ex;
             }
         }
+        public List<RoleViewModel> RoleList()
+        {
+            try
+            {
+                List<RoleViewModel> roles=new List<RoleViewModel>();
+                using (IDbConnection db = new SqlConnection(_connectionStr))
+                {
+                    roles = db.Query<RoleViewModel>("SP_GetRoles",CommandType.StoredProcedure).ToList();
+                }
+                return roles;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public void UpdateRole(int userId,int roleId)
+        {
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionStr))
+                {
+                    db.Query("SP_UpdateRoles",new {UserID=userId, RoleID=roleId } ,commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }
