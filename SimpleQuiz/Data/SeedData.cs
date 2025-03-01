@@ -20,16 +20,13 @@ namespace SimpleQuiz
                     await roleManager.CreateAsync(new IdentityRole<int>(roleName));
                 }
             }
-
             var adminUser = new ApplicationUser
             {
                 UserName = "admin@example.com",
                 Email = "admin@example.com"
             };
-
             string adminPassword = "Admin@123";
             var user = await userManager.FindByEmailAsync(adminUser.Email);
-
             if (user == null)
             {
                 var createPowerUser = await userManager.CreateAsync(adminUser, adminPassword);
