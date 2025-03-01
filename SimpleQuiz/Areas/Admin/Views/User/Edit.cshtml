@@ -25,11 +25,7 @@
                             </a>
                         </div>
                     </div>
-                    <form id="setPasswordForm">
-                        @if (ViewData["Message"] != null)
-                        {
-                            <div class="alert alert-danger">@ViewData["Message"]</div>
-                        }
+                    <form id="setPasswordForm" onsubmit="return submitResetPasswordForm()">
                         <input for="Code" type="hidden" id="Code" name="Code" value="@ViewBag.Token" />
                         <input for="Email" type="hidden" id="Email" name="Email" value="@Model.Email" />
                         <div class="form-group">
@@ -51,7 +47,7 @@
                             </div>
                         </div>
                         <div class="card-footer text-end">
-                            <button type="submit" class="btn btn-primary">بازنشانی رمز</button>
+                            <button class="btn btn-primary" type="submit">بازنشانی رمز</button>
                         </div>
                     </form>
                 </div>

@@ -101,10 +101,9 @@ async function SendEditUser(editInfo) {
     }
 }
 
-document.getElementById('setPasswordForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
+function submitResetPasswordForm() {
+    const form = document.getElementById('setPasswordForm');
+    const formData = new FormData(form);
 
     fetch('/Identity/Account/ResetPassword', {
         method: 'POST',
@@ -124,7 +123,10 @@ document.getElementById('setPasswordForm').addEventListener('submit', function (
         .catch(error => {
             console.error('Error:', error);
         });
-});
+
+    // جلوگیری از رفتار پیش‌فرض فرم
+    return false;
+}
 function AlertMessage(message, alertType) {
     notif({
         msg: message,
