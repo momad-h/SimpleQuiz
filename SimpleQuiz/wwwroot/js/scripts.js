@@ -25,13 +25,10 @@ async function generateLinkApi(action, controller, page) {
     }
 }
 function EditUser() {
-    // انتخاب تمام input ها، textarea ها و select هایی که کلاس user-edit دارند
     const inputs = document.querySelectorAll('input.user-edit, textarea.user-edit, select.user-edit');
 
-    // ایجاد یک شیء خالی برای ذخیره id و value
     const result = {};
 
-    // ایجاد یک شیء موقت برای ذخیره مقادیر bDay, bMonth, bYear
     const tempDate = {};
 
     // حلقه زدن روی تمام المنت‌ها

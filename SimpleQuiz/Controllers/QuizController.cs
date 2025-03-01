@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace SimpleQuiz.Controllers
 {
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "User,Admin")]
     public class QuizController : Controller
     {
         private readonly DB _db;
