@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleQuiz", "SimpleQuiz\Si
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleQuizApi", "SimpleQuizApi\SimpleQuizApi.csproj", "{8F33FF0C-B569-4751-804B-2A0A5C425514}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublicLibrary", "PublicLibrary\PublicLibrary.csproj", "{9B3D53BA-0610-4541-AB31-3C40F862B400}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8F33FF0C-B569-4751-804B-2A0A5C425514}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F33FF0C-B569-4751-804B-2A0A5C425514}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F33FF0C-B569-4751-804B-2A0A5C425514}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B3D53BA-0610-4541-AB31-3C40F862B400}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B3D53BA-0610-4541-AB31-3C40F862B400}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B3D53BA-0610-4541-AB31-3C40F862B400}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B3D53BA-0610-4541-AB31-3C40F862B400}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

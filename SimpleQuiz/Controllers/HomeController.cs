@@ -19,12 +19,8 @@ namespace SimpleQuiz.Controllers
 
         public IActionResult Index(string token)
         {
-            //if (!_tokenService.ValidateToken(token, "Index"))
-            //{
-            //    return RedirectToAction("Login", "Quiz"); // یا صفحه خطا
-            //}
-            ViewBag.QuizInfoAll = _db.GetQuizInfo();
-            return View();
+            var posts=_db.GetBlogPosts();
+            return View(posts);
         }
 
         public IActionResult Privacy()

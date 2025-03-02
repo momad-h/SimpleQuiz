@@ -4,6 +4,7 @@ using SimpleQuiz.Models;
 using Newtonsoft.Json;
 using System.Reflection;
 using Microsoft.AspNetCore.Http.HttpResults;
+
 namespace SimpleQuiz.Controllers
 {
     [Route("qApi/[controller]")]

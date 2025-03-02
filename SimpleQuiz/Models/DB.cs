@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
+using System.Collections.Immutable;
 using System.Data;
 
 
@@ -14,6 +15,7 @@ namespace SimpleQuiz
             _connectionStr = configuration.GetConnectionString("DefaultConnection");
         }
 
+        #region QUIZ_Section
         public List<QuestionsViewModel> GetQuestions()
         {
             List<QuestionsViewModel> questions;
@@ -140,6 +142,33 @@ namespace SimpleQuiz
                 throw ex;
             }
         }
+        public int SaveQuizHistory(string userName, List<UserQuizViewModel> model)
+        {
+            try
+            {
+                int[] QuizHistoryID;
+                using (IDbConnection db = new SqlConnection(_connectionStr))
+                {
+                    int correctCount = model.Count(x => x.IsCorrect);
+                    var SaveHistoryParameters = new { UserName = userName, QuizScore = correctCount, QuizDate = DateTime.Now };
+                    QuizHistoryID = db.Query<int>("Quiz_SaveHistory", SaveHistoryParameters, commandType: CommandType.StoredProcedure).ToArray();
+                    foreach (UserQuizViewModel question in model)
+                    {
+                        var SaveHistoryDetailsParameters = new { QuizHistoryID = QuizHistoryID[0], QuestionId = question.QuestionId.Replace("question", ""), Answer = question.Answer, IsCorrect = question.IsCorrect };
+                        db.Query<int>("Quiz_SaveHistoryDetails", SaveHistoryDetailsParameters, commandType: CommandType.StoredProcedure).ToArray();
+                    }
+                }
+                return QuizHistoryID[0];
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region UserManagment_Section
         public int Signup(UserInfoViewModel user)
         {
             try
@@ -174,38 +203,14 @@ namespace SimpleQuiz
                 throw ex;
             }
         }
-        public int SaveQuizHistory(string userName, List<UserQuizViewModel> model)
-        {
-            try
-            {
-                int[] QuizHistoryID;
-                using (IDbConnection db = new SqlConnection(_connectionStr))
-                {
-                    int correctCount = model.Count(x => x.IsCorrect);
-                    var SaveHistoryParameters = new { UserName = userName, QuizScore = correctCount, QuizDate = DateTime.Now };
-                    QuizHistoryID = db.Query<int>("Quiz_SaveHistory", SaveHistoryParameters, commandType: CommandType.StoredProcedure).ToArray();
-                    foreach (UserQuizViewModel question in model)
-                    {
-                        var SaveHistoryDetailsParameters = new { QuizHistoryID = QuizHistoryID[0], QuestionId = question.QuestionId.Replace("question",""), Answer = question.Answer, IsCorrect=question.IsCorrect };
-                        db.Query<int>("Quiz_SaveHistoryDetails", SaveHistoryDetailsParameters, commandType: CommandType.StoredProcedure).ToArray();
-                    }
-                }
-                return QuizHistoryID[0];
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-        }
         public List<RoleViewModel> RoleList()
         {
             try
             {
-                List<RoleViewModel> roles=new List<RoleViewModel>();
+                List<RoleViewModel> roles = new List<RoleViewModel>();
                 using (IDbConnection db = new SqlConnection(_connectionStr))
                 {
-                    roles = db.Query<RoleViewModel>("SP_GetRoles",CommandType.StoredProcedure).ToList();
+                    roles = db.Query<RoleViewModel>("SP_GetRoles", CommandType.StoredProcedure).ToList();
                 }
                 return roles;
             }
@@ -215,13 +220,13 @@ namespace SimpleQuiz
                 throw ex;
             }
         }
-        public void UpdateRole(int userId,int roleId)
+        public void UpdateRole(int userId, int roleId)
         {
             try
             {
                 using (IDbConnection db = new SqlConnection(_connectionStr))
                 {
-                    db.Query("SP_UpdateRoles",new {UserID=userId, RoleID=roleId } ,commandType: CommandType.StoredProcedure);
+                    db.Query("SP_UpdateRoles", new { UserID = userId, RoleID = roleId }, commandType: CommandType.StoredProcedure);
                 }
             }
             catch (Exception ex)
@@ -230,5 +235,25 @@ namespace SimpleQuiz
                 throw ex;
             }
         }
+        #endregion
+
+        #region Blog_Section
+        public List<BlogPostViewModel> GetBlogPosts()
+        {
+            try
+            {
+                using (IDbConnection db=new SqlConnection(_connectionStr))
+                {
+                    var posts = db.Query<BlogPostViewModel>("Select Blog_Post.*,UserName,CategoryFarsiName From Blog_Post join AspNetUsers on Blog_Post.CreatorID=AspNetUsers.Id join CategoryList on Blog_Post.Category=CategoryList.ID").ToList();
+                    return posts;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        #endregion
     }
 }
