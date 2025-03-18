@@ -1,0 +1,74 @@
+﻿@{
+	ViewData["Title"] = "مدیریت آزمون";
+	Layout = "_MainLayout";
+}
+
+<!-- CONTAINER -->
+<div class="main-container container-fluid">
+    <!-- Row -->
+    <div class="row ">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="expanel expanel-primary">
+                        <div class="expanel-heading">
+                            <h3 class="expanel-title">ایجاد سوال جدید</h3>
+                        </div>
+                        <div class="expanel-body">
+                            <div class="row">
+                                <div class="btn-group mt-2 mb-2">
+                                    <button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        Large Dropdown
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="javascript:void(0)">آزمون 1</a></li>
+                                        <li><a href="javascript:void(0)">آزمون 2</a></li>
+                                        <li><a href="javascript:void(0)">آزمون 3</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="javascript:void(0)">Separated link</a></li>
+                                    </ul>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12" id="new-question-panel" style="display: none;">
+                                        <div class="expanel expanel-default">
+                                            <div class="expanel-heading">
+                                                <h3 class="expanel-title" id="new-question-title"></h3>
+                                            </div>
+                                            <div class="expanel-body">
+                                                <div class="card-body pb-2">
+                                                    <form class="needs-validation was-validated">
+                                                        <div class="row row-sm">
+                                                            <div class="col-lg-12">
+                                                                <div class="form-group">
+                                                                    <textarea class="form-control mb-4 is-invalid state-invalid" placeholder="متن سوال را وارد کنید . . ." required="" rows="3"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="expanel expanel-secondary">
+                        <div class="expanel-heading">
+                            <h3 class="expanel-title">ایجاد ازمون جدید</h3>
+                        </div>
+                        <div class="expanel-body">
+                            Panel content
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Row -->
+</div>
