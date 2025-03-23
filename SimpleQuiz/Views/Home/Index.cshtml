@@ -14,7 +14,7 @@
 				<div class="card">
 					<a href="blog-details.html"><img class="card-img-top" src="@post.Pic" alt="@post.Title"></a>
 					<div class="card-body d-flex flex-column">
-						<h3><a href="blog-details.html">@post.Title</a></h3>
+						<h3><a asp-controller="Home" asp-action="Blog_Post_Details" asp-route-id="@post.ID" >@post.Title</a></h3>
 						<div class="text-muted">@post.PostText.Substring(0,100)...</div>
 						<div class="d-flex align-items-center pt-5 mt-auto">
 							<div class="avatar brround avatar-md me-3 cover-image" data-bs-image-src="/bootstrap/assets/images/users/18.jpg"></div>

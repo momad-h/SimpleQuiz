@@ -166,6 +166,24 @@ namespace SimpleQuiz
                 throw ex;
             }
         }
+        public List<QuizTypeViewModel> GetQuizTypes()
+        {
+            try
+            {
+                List<QuizTypeViewModel> quizTypes;
+                using (IDbConnection db = new SqlConnection(_connectionStr))
+                {
+                    quizTypes = db.Query<QuizTypeViewModel>("SELECT ID QuizTypeID,TypeName QuizTypeName FROM QuizTypes").ToList();
+                }
+
+                return quizTypes;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         #endregion
 
         #region UserManagment_Section
@@ -246,6 +264,22 @@ namespace SimpleQuiz
                 {
                     var posts = db.Query<BlogPostViewModel>("Select Blog_Post.*,UserName,CategoryFarsiName From Blog_Post join AspNetUsers on Blog_Post.CreatorID=AspNetUsers.Id join CategoryList on Blog_Post.Category=CategoryList.ID").ToList();
                     return posts;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public BlogPostViewModel GetBlogPostByID(int id)
+        {
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionStr))
+                {
+                    var post = db.Query<BlogPostViewModel>("Select Blog_Post.*,UserName,CategoryFarsiName From Blog_Post join AspNetUsers on Blog_Post.CreatorID=AspNetUsers.Id join CategoryList on Blog_Post.Category=CategoryList.ID WHERE Blog_Post.ID=@ID", new {ID=id}).SingleOrDefault();
+                    return post;
                 }
             }
             catch (Exception ex)

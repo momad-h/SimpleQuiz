@@ -8,11 +8,25 @@
     <div class="col-md-12">
         <div class="row">
             <div class="col-lg-6">
-                <div class="expanel expanel-primary">
+                <div class="expanel expanel-primary" disabled>
                     <div class="expanel-heading">
-                        <h3 class="expanel-title">ایجاد سوال جدید</h3>
+                        <h3 class="expanel-title">مدیریت سوالات</h3>
                     </div>
                     <div class="expanel-body">
+                        <div class="row">
+                            <div class="custom-controls-stacked col-md-6 col-xl-6">
+                                <label class="custom-control custom-radio-md">
+                                    <input type="radio" class="custom-control-input" name="questionmanagment" value="question-update" onclick="SelectQuestionAddOrUpdate()">
+                                    <span class="custom-control-label">ویرایش سوالات</span>
+                                </label>
+                            </div>
+                            <div class="custom-controls-stacked col-md-6 col-xl-6">
+                                <label class="custom-control custom-radio-md">
+                                    <input type="radio" class="custom-control-input" name="questionmanagment" value="question-add" onclick="SelectQuestionAddOrUpdate()">
+                                    <span class="custom-control-label">سوال جدید</span>
+                                </label>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="btn-group mt-2 mb-2">
                                 <button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown">
@@ -81,7 +95,7 @@
                             </div>
                             <div class="form-group select2-lg">
                                 <label class="form-label">انتخاب آزمون</label>
-                                <select name="quizselector" id="quizSelect" class="form-control form-select form-select-lg select2">
+                                <select id="quizSelect" class="form-control form-select form-select-lg select2">
                                     <option value="-1" selected>--انتخاب--</option>
                                     @foreach(QuizInfo quiz in Model){
                                         <option value="@quiz.ID">@quiz.QuizFarsiName</option>
@@ -117,11 +131,12 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">نوع آزمون <span class="text-red">*</span></label>
-                                            <select class="form-control form-select select2" id="quizType" data-bs-placeholder="Select">
-                                                <option label="Select">--انتخاب--</option>
-                                                <option value="1">تشریحی</option>
-                                                <option value="2">چهار گزینه ای</option>
-                                                <option value="3">ترکیبی</option>
+                                            <select class="form-control form-select select2" id="quizType">
+                                                <option value="-1" selected>--انتخاب--</option>
+                                                @foreach (QuizTypeViewModel quizType in ViewBag.QuizTypes)
+                                                {
+                                                    <option value="@quizType.QuizTypeID">@quizType.QuizTypeName</option>
+                                                }
                                             </select>
                                         </div>
                                     </div>
@@ -152,6 +167,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <input type="button" class="btn btn-primary col-md-6 col-lx-6" value="ثبت" />
                         </div>
                     </div>
                 </div>

@@ -477,7 +477,7 @@
 										<li class="side-menu-label1"><a href="javascript:void(0)">مدیریت بخش ها</a></li>
 										<li><a asp-controller="QuizManagment" asp-action="QuizManager" class="slide-item"> مدیریت آزمون</a></li>
 										<li><a href="register.html" class="slide-item">مدیریت آموزش ها</a></li>
-										<li><a href="forgot-password.html" class="slide-item">مدیریت صفحات</a></li>
+										<li><a asp-area="Admin" asp-controller="Blog" asp-action="Blog_Post_Add" class="slide-item">مدیریت مقالات</a></li>
 										<li><a href="lockscreen.html" class="slide-item">گزارشات</a></li>
 									</ul>
 								</li>
@@ -1107,6 +1107,18 @@
 
 	<!-- INTERNAL SELECT2 JS -->
 	<script src="~/bootstrap/assets/plugins/select2/select2.full.min.js"></script>
+	<script src="~/bootstrap/assets/js/select2.js"></script>
+
+	<!-- INTERNAL WYSIWYG Editor JS -->
+	<script src="~/bootstrap/assets/plugins/wysiwyag/jquery.richtext.js"></script>
+	<script src="~/bootstrap/assets/plugins/wysiwyag/wysiwyag.js"></script>
+
+	<!-- INTERNAL File-Uploads Js-->
+	<script src="~/bootstrap/assets/plugins/fancyuploder/jquery.ui.widget.js"></script>
+	<script src="~/bootstrap/assets/plugins/fancyuploder/jquery.fileupload.js"></script>
+	<script src="~/bootstrap/assets/plugins/fancyuploder/jquery.iframe-transport.js"></script>
+	<script src="~/bootstrap/assets/plugins/fancyuploder/jquery.fancy-fileupload.js"></script>
+	<script src="~/bootstrap/assets/plugins/fancyuploder/fancy-uploader.js"></script>
 
 	<!-- INTERNAL Data tables js-->
 	<script src="~/bootstrap/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>

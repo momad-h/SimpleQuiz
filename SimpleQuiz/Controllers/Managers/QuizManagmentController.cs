@@ -13,6 +13,7 @@ namespace SimpleQuiz.Controllers
         public async Task<IActionResult> QuizManager()
         {
             var quizList = await _db.AsyncGetQuizInfo();
+            ViewBag.QuizTypes=_db.GetQuizTypes();
             return View(quizList);
         }
     }

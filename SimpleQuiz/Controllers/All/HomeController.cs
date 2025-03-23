@@ -22,7 +22,12 @@ namespace SimpleQuiz.Controllers
             var posts=_db.GetBlogPosts();
             return View(posts);
         }
-
+        public IActionResult Blog_Post_Details(int id)
+        {
+            var posts = _db.GetBlogPosts();
+            ViewBag.Post = _db.GetBlogPostByID(id);
+            return View(posts);
+        }
         public IActionResult Privacy()
         {
             return View();
