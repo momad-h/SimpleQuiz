@@ -166,6 +166,7 @@ function startTimer(duration) {
 // تابع برای گرفتن تمامی گزینه‌هایی که تیک خورده‌اند در جدول خاص
 // تابع برای گرفتن تمامی گزینه‌هایی که تیک خورده‌اند در جدول خاص به همراه اطلاعات سوال و پاسخ
 function getCheckedOptions() {
+    localStorage.removeItem('quizTargetTime');
     // ایجاد یک آرایه خالی برای ذخیره نتایج
     let selectedOptions = [];
 
@@ -561,19 +562,31 @@ function customAlert(title, text, type, showCancelButton, confirmButtonText, can
 document.addEventListener("DOMContentLoaded", function () {
     const quizTime = document.getElementById('quiztime');
     if (quizTime) {
-        const targetTime = new Date();
-        targetTime.setMinutes(targetTime.getMinutes() + (quizTime.textContent * 1)); // ۳۰ دقیقه بعد
+        let targetTime;
 
-        setInterval(function () {
+        // بررسی آیا زمان هدف در localStorage ذخیره شده است
+        const savedTargetTime = localStorage.getItem('quizTargetTime');
+        if (savedTargetTime) {
+            targetTime = new Date(parseInt(savedTargetTime, 10)); // بازیابی زمان هدف
+        } else {
+            // اگر زمان هدف ذخیره نشده، زمان جدیدی تنظیم کنید
+            targetTime = new Date();
+            targetTime.setMinutes(targetTime.getMinutes() + (quizTime.textContent * 1)); // اضافه کردن زمان آزمون
+            localStorage.setItem('quizTargetTime', targetTime.getTime()); // ذخیره زمان هدف در localStorage
+        }
+
+        const interval = setInterval(function () {
             const now = new Date(); // زمان فعلی
             const difference = targetTime - now; // تفاوت زمان هدف و زمان فعلی به میلی‌ثانیه
 
             // اگر زمان به پایان رسیده باشد، تایمر را متوقف می‌کنیم
             if (difference <= 0) {
-                clearInterval(this);
+                clearInterval(interval);
                 document.querySelector('#countdown #hour').innerHTML = "00";
                 document.querySelector('#countdown #min').innerHTML = "00";
                 document.querySelector('#countdown #sec').innerHTML = "00";
+                localStorage.removeItem('quizTargetTime'); // حذف زمان هدف از localStorage
+                EndQuiz(); // فراخوانی تابع EndQuiz
                 return;
             }
 
@@ -589,12 +602,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 1000);
     }
 });
-// مقداردهی اولیه در صفحه آزمون
-//document.addEventListener("DOMContentLoaded", () => {
-//    if (window.location.pathname !== "/Quiz/Login") {
-//        loadUserInfo();
-//    }
-//});
+
+function EndQuiz() {
+    AlertMessage('زمان به پایان رسیده است!', 'error');
+    document.getElementById('btnSendQuiz').disabled = true;
+    document.getElementById('btnSendQuiz').removeAttribute('onclick');
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById("loginForm"); // فرض کنید فرم لاگین دارای این ID باشد
 

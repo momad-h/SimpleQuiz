@@ -77,7 +77,7 @@ namespace SimpleQuiz
                 CheckResponseViewModel? res;
                 using (IDbConnection db = new SqlConnection(_connectionStr))
                 {
-                    res = db.Query<CheckResponseViewModel>("CheckResponse",new{QuestionId= questionId,Answer= answer},commandType:CommandType.StoredProcedure).SingleOrDefault();
+                    res = db.Query<CheckResponseViewModel>("CheckResponse", new { QuestionId = questionId, Answer = answer }, commandType: CommandType.StoredProcedure).SingleOrDefault();
                 }
 
                 return res;
@@ -95,7 +95,7 @@ namespace SimpleQuiz
                 QuizInfo? quiz;
                 using (IDbConnection db = new SqlConnection(_connectionStr))
                 {
-                    quiz = db.Query<QuizInfo>("SELECT Quiz.ID, QuizName, QuizFarsiName, TypeName QuizType, NumberOfQuestions, QuizTime, REPLACE(REPLACE(NegativeScore,0,N'ندارد'),1,N'دارد') NegativeScore,MinScoreToPass FROM Quiz JOIN QuizTypes ON QuizTypes.ID=QuizType WHERE Quiz.ID=@ID", new { ID = quizId }).SingleOrDefault();
+                    quiz = db.Query<QuizInfo>("SELECT Quiz.ID, QuizName, QuizFarsiName,QuizType QuizTypeID, TypeName QuizType, NumberOfQuestions, QuizTime,NegativeScore HasNegativeScore, REPLACE(REPLACE(NegativeScore,0,N'ندارد'),1,N'دارد') NegativeScore,MinScoreToPass,Description FROM Quiz JOIN QuizTypes ON QuizTypes.ID=QuizType WHERE Quiz.ID=@ID", new { ID = quizId }).SingleOrDefault();
                 }
 
                 return quiz;
@@ -113,7 +113,7 @@ namespace SimpleQuiz
                 List<QuizInfo>? quiz;
                 using (IDbConnection db = new SqlConnection(_connectionStr))
                 {
-                    quiz = db.Query<QuizInfo>("SELECT Quiz.ID, QuizName, QuizFarsiName, TypeName QuizType, NumberOfQuestions, QuizTime, REPLACE(REPLACE(NegativeScore,0,N'ندارد'),1,N'دارد') NegativeScore,MinScoreToPass FROM Quiz JOIN QuizTypes ON QuizTypes.ID=QuizType").ToList();
+                    quiz = db.Query<QuizInfo>("SELECT Quiz.ID, QuizName, QuizFarsiName,QuizType QuizTypeID, TypeName QuizType, NumberOfQuestions, QuizTime,NegativeScore HasNegativeScore, REPLACE(REPLACE(NegativeScore,0,N'ندارد'),1,N'دارد') NegativeScore,MinScoreToPass,Description FROM Quiz JOIN QuizTypes ON QuizTypes.ID=QuizType").ToList();
                 }
 
                 return quiz;
@@ -131,7 +131,7 @@ namespace SimpleQuiz
                 List<QuizInfo>? quiz;
                 using (IDbConnection db = new SqlConnection(_connectionStr))
                 {
-                    quiz = db.Query<QuizInfo>("SELECT Quiz.ID, QuizName, QuizFarsiName, TypeName QuizType, NumberOfQuestions, QuizTime, REPLACE(REPLACE(NegativeScore,0,N'ندارد'),1,N'دارد') NegativeScore,MinScoreToPass FROM Quiz JOIN QuizTypes ON QuizTypes.ID=QuizType").ToList();
+                    quiz = db.Query<QuizInfo>("SELECT Quiz.ID, QuizName, QuizFarsiName,QuizType QuizTypeID, TypeName QuizType, NumberOfQuestions, QuizTime,NegativeScore HasNegativeScore, REPLACE(REPLACE(NegativeScore,0,N'ندارد'),1,N'دارد') NegativeScore,MinScoreToPass,Description FROM Quiz JOIN QuizTypes ON QuizTypes.ID=QuizType").ToList();
                 }
 
                 return quiz;
@@ -177,6 +177,35 @@ namespace SimpleQuiz
                 }
 
                 return quizTypes;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public int AddOrUpdateQuiz(QuizInfo quiz)
+        {
+            try
+            {
+                int[] res;
+                var param = new
+                {
+                    ID = quiz.ID,
+                    QuizName = quiz.QuizName,
+                    QuizFarsiName = quiz.QuizFarsiName,
+                    QuizType = quiz.QuizTypeID,
+                    NumberOfQuestions = quiz.NumberOfQuestions,
+                    QuizTime = quiz.QuizTime,
+                    NegativeScore = quiz.HasNegativeScore,
+                    MinScoreToPass = quiz.MinScoreToPass,
+                    Description = quiz.Description
+                };
+                using (IDbConnection db = new SqlConnection(_connectionStr))
+                {
+                    res = db.Query<int>("Quiz_AddOrUpdatQuiz", param, commandType: CommandType.StoredProcedure).ToArray();
+                }
+                return res[0];
             }
             catch (Exception ex)
             {
@@ -260,7 +289,7 @@ namespace SimpleQuiz
         {
             try
             {
-                using (IDbConnection db=new SqlConnection(_connectionStr))
+                using (IDbConnection db = new SqlConnection(_connectionStr))
                 {
                     var posts = db.Query<BlogPostViewModel>("Select Blog_Post.*,UserName,CategoryFarsiName From Blog_Post join AspNetUsers on Blog_Post.CreatorID=AspNetUsers.Id join CategoryList on Blog_Post.Category=CategoryList.ID").ToList();
                     return posts;
@@ -278,7 +307,7 @@ namespace SimpleQuiz
             {
                 using (IDbConnection db = new SqlConnection(_connectionStr))
                 {
-                    var post = db.Query<BlogPostViewModel>("Select Blog_Post.*,UserName,CategoryFarsiName From Blog_Post join AspNetUsers on Blog_Post.CreatorID=AspNetUsers.Id join CategoryList on Blog_Post.Category=CategoryList.ID WHERE Blog_Post.ID=@ID", new {ID=id}).SingleOrDefault();
+                    var post = db.Query<BlogPostViewModel>("Select Blog_Post.*,UserName,CategoryFarsiName From Blog_Post join AspNetUsers on Blog_Post.CreatorID=AspNetUsers.Id join CategoryList on Blog_Post.Category=CategoryList.ID WHERE Blog_Post.ID=@ID", new { ID = id }).SingleOrDefault();
                     return post;
                 }
             }

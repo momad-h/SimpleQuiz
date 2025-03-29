@@ -57,5 +57,20 @@ namespace SimpleQuiz.Areas.Admin.Controllers
             }
             return Ok(new { success = false, message = "Invalid data." });
         }
+        [HttpPost]
+        [Route("QuizManagerAsync")]
+        public async Task<IActionResult> QuizManagerAsync([FromBody] QuizInfo quiz)
+        {
+            try
+            {
+                var res = _db.AddOrUpdateQuiz(quiz);
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

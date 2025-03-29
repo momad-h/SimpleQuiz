@@ -24,8 +24,13 @@ namespace SimpleQuiz.Controllers
         }
         public IActionResult Blog_Post_Details(int id)
         {
+            var post= _db.GetBlogPostByID(id);
+            if (post == null) 
+            {
+                return Redirect("/ErrorPages/404");
+            }
             var posts = _db.GetBlogPosts();
-            ViewBag.Post = _db.GetBlogPostByID(id);
+            ViewBag.Post = post;
             return View(posts);
         }
         public IActionResult Privacy()

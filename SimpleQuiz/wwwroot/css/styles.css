@@ -58,7 +58,11 @@
 .mb20 {
     margin-bottom: 20px;
 }
-
+.card-img-top {
+    width: 100%; /* عرض عکس را پر کند */
+    aspect-ratio: 16 / 12; /* نسبت ابعاد را تنظیم کنید */
+    object-fit: cover; /* عکس را به طور یکنواخت نمایش دهد */
+}
 section {
     padding: 0px 0;
 }

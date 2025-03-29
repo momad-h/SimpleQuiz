@@ -24,6 +24,9 @@ builder.Services.AddMemoryCache();
 builder.Services.AddScoped<TokenService>();
 var app = builder.Build();
 
+app.UseExceptionHandler("/Home/Error"); // برای خطاهای سرور (500)
+app.UseStatusCodePagesWithReExecute("/ErrorPages/{0}"); // برای خطاهای مانند 404
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
