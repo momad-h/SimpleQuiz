@@ -12,6 +12,7 @@ const quizTime = document.getElementById('quizTime');
 const quizNegativeScore = document.getElementById('quizNegativeScore');
 const quizDescription = document.getElementById('quizDescription');
 const quizManagmentSubmit = document.getElementById('quizManagmentSubmit');
+const quizSelectForQuestion = document.getElementById('quizSelectForQuestion');
 
 
 function SelectQuizAddOrUpdate() {
@@ -33,6 +34,7 @@ function SelectQuizAddOrUpdate() {
         quizupdate.style.display = 'none';
         quizadd.style.display = 'block';
         titleName.innerHTML = 'ایجاد آزمون';
+        quizId.value = 0;
         quizEnName.value = '';
         quizFaName.value = '';
         quizDescription.value = '';
